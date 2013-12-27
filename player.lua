@@ -26,21 +26,23 @@ end
 
 Player.animations = 
 {
-	walk = Animation("gfx/player/player.png",4, {offset = "bottom middle"}),
+	walk = Animation("gfx/player/playerWalk.png",4, {offset = "bottom middle"}),
+	idle = Animation("gfx/player/playerIdle.png",1),
+	hurt = Animation("gfx/player/playerHurt.png",1),
 	jump = Animation("gfx/player/playerJump.png",1),
 	fall = Animation("gfx/player/playerFall.png",1),
-	attackGround = Animation("gfx/player/playerAttack.png",5, {speed = 0.07}),
-	attackAir = Animation("gfx/player/playerAttackAir.png",3, {speed = 0.07})
+	attackGround = Animation("gfx/player/playerAttack.png",5, {speed = 0.05}),
+	attackAir = Animation("gfx/player/playerAttackAir.png",3, {speed = 0.05})
 }
 
-Player.animation = Player.animations["walk"]
+Player.animation = Player.animations["idle"]
 
 Player.states = 
 {
 	idle = 
 	{
 		set = function(self)
-			self.animation = self.animations.walk
+			self.animation = self.animations.idle
 			self.animation:reset()-- = self.animations.idle
 		end,
 		update = function(self)
@@ -121,6 +123,7 @@ Player.states =
 			self.vy = -200
 			self.onGround = false
 			self.isHurt = true
+			self.animation = self.animations.hurt
 		end,
 		update = function(self, dt)
 			self.ax = 0
