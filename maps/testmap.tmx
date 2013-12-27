@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="10" tilewidth="16" tileheight="16" backgroundcolor="#140c1c">
+ <tileset firstgid="1" name="Main" tilewidth="16" tileheight="16">
+  <image source="../tileset.png" width="160" height="144"/>
+  <tile id="23">
+   <properties>
+    <property name="type" value="block"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="91" name="utiltileset" tilewidth="16" tileheight="16">
+  <image source="../utiltileset.png" width="64" height="16"/>
+ </tileset>
+ <layer name="Tile Layer 3" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFMMCCA1PbPHLMxGcWqWZS0yxc5qPbRS1AbfMIAQDLUACR
+  </data>
+ </layer>
+ <layer name="Tile Layer 1" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAdyOPBMCDBwHBAngj1MKyCA4PMEUUyB0YrAMUVcWCgXIIgUI0gEf6A0UB9C2DiumjqgHIJ+MzRxuJPZPPQgRJUThmLGSBgisSGqVFCM0MLSuuhmYluBjD8GCQx7YcDHShtgiTGxwB2P1YMAyBz0fyLEysAMXoc4gPEpBdktcTENbEA3X0AkzoWMA==
+  </data>
+ </layer>
+ <layer name="Collisions" width="20" height="10" opacity="0.79">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAdROPBxKjBpw+XXaSaGQPFpPgDnzpiALHm0ROA3BFHop5YBvzxRGrcouvF5U5y0guxcU0sQHcfAPF9HYs=
+  </data>
+ </layer>
+ <objectgroup name="objectLayer" width="20" height="10">
+  <object name="2" type="Exit" x="0" y="48" width="16" height="48"/>
+  <object name="3" type="Exit" x="304" y="16" width="16" height="80"/>
+  <object name="Thingling" type="Enemy" x="256" y="80" width="16" height="16"/>
+ </objectgroup>
+</map>
