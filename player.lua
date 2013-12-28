@@ -31,8 +31,8 @@ Player.animations =
 	hurt = Animation("gfx/player/playerHurt.png",1),
 	jump = Animation("gfx/player/playerJump.png",1),
 	fall = Animation("gfx/player/playerFall.png",1),
-	attackGround = Animation("gfx/player/playerAttack.png",5, {speed = 0.05}),
-	attackAir = Animation("gfx/player/playerAttackAir.png",3, {speed = 0.05})
+	attackGround = Animation("gfx/player/playerAttack.png",5, {speed = 0.07}),
+	attackAir = Animation("gfx/player/playerAttackAir.png",4, {speed = 0.07})
 }
 
 Player.animation = Player.animations["idle"]
