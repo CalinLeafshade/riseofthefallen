@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="10" tilewidth="16" tileheight="16" backgroundcolor="#140c1c">
+ <properties>
+  <property name="cellX" value="16"/>
+  <property name="cellY" value="16"/>
+  <property name="name" value="Test Map"/>
+ </properties>
  <tileset firstgid="1" name="Main" tilewidth="16" tileheight="16">
-  <image source="../tileset.png" width="160" height="144"/>
+  <image source="../tileset.png" width="160" height="176"/>
   <tile id="23">
    <properties>
     <property name="type" value="block"/>
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="91" name="utiltileset" tilewidth="16" tileheight="16">
+ <tileset firstgid="111" name="utiltileset" tilewidth="16" tileheight="16">
   <image source="../utiltileset.png" width="64" height="16"/>
  </tileset>
  <layer name="Tile Layer 3" width="20" height="10">
@@ -23,7 +28,7 @@
  </layer>
  <layer name="Collisions" width="20" height="10" opacity="0.79">
   <data encoding="base64" compression="zlib">
-   eJxjYCAdROPBxKjBpw+XXaSaGQPFpPgDnzpiALHm0ROA3BFHop5YBvzxRGrcouvF5U5y0guxcU0sQHcfAPF9HYs=
+   eJxjYCAd5OPBxKjBpw+XXaSaWQDFpPgDnzpiALHm0ROA3FFEop5CBvzxRGrcouvF5U5y0guxcU0sQHcfAHfiJAc=
   </data>
  </layer>
  <objectgroup name="objectLayer" width="20" height="10">

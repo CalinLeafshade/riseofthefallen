@@ -49,6 +49,10 @@ function MapObject:getHeight()
 	end
 end
 
+function MapObject:getPosition()
+	return self.x,self.y
+end
+
 function MapObject:getSize()
 	return self:getWidth(), self:getHeight()
 end
@@ -57,13 +61,24 @@ function MapObject:bbox()
 	return self.x, self.y, self.x + self:getWidth(), self.y + self:getHeight()
 end
 
+function MapObject:getCenter()
+	local x,y = self:getPosition()
+	return x + self:getWidth() / 2, y + self:getHeight() / 2
+end
+
+function MapObject:LeaveEdge(edge)
+	
+end
+
 function MapObject:setState(state)
 	assert(self.states[state], "no state with that name")
-	if self.states[self.state] then
+	if self.states[self.state] and self.states[self.state].leave then
 		self.states[self.state].leave(self)
 	end
 	self.state = state
-	self.states[state].set(self)
+	if self.states[state].set then
+		self.states[state].set(self)
+	end
 end
 
 function MapObject:getTilesCovered()
@@ -127,6 +142,28 @@ function MapObject:update(dt)
 	if self.friction then self:applyFriction() end
 	
 	self:move(dt)
+	self:checkEdges()
+end
+
+function MapObject:getCell()
+	local x,y = self:getPosition()
+	local m = self.map
+	local cx,cy = m.cell.x,m.cell.y
+	return cx + math.floor(x / 320), cy + math.floor(y / 160)
+end
+
+function MapObject:checkEdges()
+	local x,y = self:getCenter()
+	local w,h = self.map.width * 16, self.map.height * 16
+	if x < 0 then
+		self:leaveEdge("left")
+	elseif x > w then
+		self:leaveEdge("right")
+	elseif y < 0 then
+		self:leaveEdge("top")
+	elseif y > h then
+		self:leaveEdge("bottom")
+	end
 end
 
 function MapObject:applyFriction()

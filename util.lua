@@ -42,3 +42,16 @@ function getOverlapAndDisplacementVector(l1,t1,w1,h1,c1x,c1y, l2,t2,w2,h2,c2x,c2
   if ax < ay then return area, dx, 0 end
   return area, 0, dy
 end
+
+function round(num, idp)
+  local mult = 10^(idp or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
+function string.startsWith(String,Start)
+   return string.sub(String,1,string.len(Start))==Start
+end
+
+function string.endsWith(String,End)
+   return End=='' or string.sub(String,-string.len(End))==End
+end

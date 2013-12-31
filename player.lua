@@ -13,15 +13,22 @@ end
 
 function Player:hurt(pwr,vx,vy)
 	if self.state == "hurt" or self:isInvincible() then
-		return 
+		return false
 	end
 	self.lastHurt = love.timer.getTime()
 	print("player was hurt")
 	self:setState("hurt",vx,vy)
+	return true
 end
 
 function Player:attack()
 	self:setState("attack")
+end
+
+function Player:leaveEdge(edge)
+	local cx,cy = self:getCell()
+	print(edge,cx,cy)
+	world:changeMap(cx,cy)
 end
 
 Player.animations = 

@@ -27,6 +27,16 @@ function Map:initialize(def)
 	self.objects = {}
 	self.exits = {}
 	self.enemySpawns = {}
+	self.name = def.properties.name
+	self.cell = {
+			x = tonumber(def.properties.cellX),
+			y = tonumber(def.properties.cellY),
+		}
+	for i,v in ipairs(def.tilesets) do -- find util tileset starting
+		if v.name == "utiltileset" then
+			self.utiloffset = v.firstgid - 1
+		end
+	end
 	for i,v in ipairs(def.layers) do
 		if v.type == "objectgroup" then
 			self:processObjects(v)		
@@ -50,6 +60,21 @@ Map.objectProcessors =
 	end,
 	
 }
+
+function Map:getCellCoverage()
+	return self.width / 20, self.height / 10
+end
+
+function Map:getCells()
+	local cells = {}
+	local w,h = self:getCellCoverage()
+	for x=self.cell.x, self.cell.x + (w - 1) do
+		for y = self.cell.y, self.cell.y + (h - 1) do
+			table.insert(cells, {x,y})
+		end
+	end
+	return cells
+end
 
 function Map:spawnEnemies()
 	for i,v in ipairs(self.enemySpawns) do
@@ -108,7 +133,7 @@ function Map:processCollisionLayer(layer)
 	for y=0,layer.height - 1 do
 		for x=0,layer.width - 1 do
 			l[x] = l[x] or {}
-			l[x][y] = math.max(layer.data[i] - 90,0)
+			l[x][y] = math.max(layer.data[i] - self.utiloffset,0)
 			i = i + 1
 		end
 	end
@@ -147,7 +172,7 @@ function Map:drawObjects()
 	for i,v in pairs(self.objects) do
 		v:draw()
 	end	
-	Player:draw()
+	Player:draw() -- HACK Draw the player again so he's on top.
 end
 
 function Map:draw(lowerX, lowerY, upperX, upperY)
@@ -157,12 +182,12 @@ function Map:draw(lowerX, lowerY, upperX, upperY)
 	upperY = upperY or self.height - 1
 	love.graphics.setBackgroundColor(self.backgroundColor)
 	love.graphics.clear()
-	for _,layer in ipairs(self.layers) do
+	for _,layer in ipairs(self.layers) do -- TODO should probs do this in a sprite batch
 		if layer.type == "tilelayer" then
 			for x=lowerX, upperX do
 				for y=lowerY, upperY do
 					local tile = layer.data[x][y]
-					local flippedHoriz = bit32.band(tile, FLIPPED_HORIZONTALLY_FLAG) == -2147483648
+					local flippedHoriz = bit32.band(tile, FLIPPED_HORIZONTALLY_FLAG) == -2147483648 -- lua numbers are signed so using the sign bit is a problem
 					local flippedVert = bit32.band(tile, FLIPPED_VERTICALLY_FLAG) == FLIPPED_VERTICALLY_FLAG
 					local flippedDiag = bit32.band(tile, FLIPPED_DIAGONALLY_FLAG) == FLIPPED_DIAGONALLY_FLAG
 					local sx,sy = 1,1

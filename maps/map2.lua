@@ -7,7 +7,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   properties = {
-    ["cellX"] = "16",
+    ["cellX"] = "15",
     ["cellY"] = "16",
     ["name"] = "Test Map"
   },
