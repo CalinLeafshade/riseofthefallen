@@ -37,6 +37,8 @@ function love.keypressed(key)
 		Player:jump()
 	elseif key == "z" then
 		Player:attack()
+	elseif key == "q" then
+		love.event.push("quit")
 	end
 
 end
