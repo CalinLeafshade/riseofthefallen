@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="30" tilewidth="16" tileheight="16" backgroundcolor="#140c1c">
+ <properties>
+  <property name="cellX" value="17"/>
+  <property name="cellY" value="15"/>
+  <property name="name" value="Test Map"/>
+ </properties>
+ <tileset firstgid="1" name="Main" tilewidth="16" tileheight="16">
+  <image source="../tileset.png" width="160" height="176"/>
+  <tile id="23">
+   <properties>
+    <property name="type" value="block"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="111" name="utiltileset" tilewidth="16" tileheight="16">
+  <image source="../utiltileset.png" width="64" height="16"/>
+ </tileset>
+ <layer name="Tile Layer 3" width="20" height="30">
+  <data encoding="base64" compression="zlib">
+   eJxjYBiaQB0PHjVv1LyRZB4+vaSaR6pZQx2T639SAT3SC6VAlYrmoZs12NyHZOYDIG6g1BxlAnxqmTsYwVBw40ABAHqNHSg=
+  </data>
+ </layer>
+ <layer name="Tile Layer 1" width="20" height="30">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA9UGVgWMCFBwPlFUgxj4uw/IFR80bNG6zmyQOxDZQ2grIpNY8UwAk0jwMHlifDvKEMOLBgTgJ6AnDo48ChHl96CSDFsQTMA7q7gQzjwObZQjGaONnm4RAflObB/D5Y3QcDksD8KcHA4ICMQXkVmY3LPGzxSy4gVP4NtHniDOAwAWMbKJYggGlV7gEA1WcfqQ==
+  </data>
+ </layer>
+ <layer name="Collisions" width="20" height="30" opacity="0.37">
+  <data encoding="base64" compression="zlib">
+   eJztlNEOABAIRf0x/f+LF95Q96oNc7ae4qwmpRRPNgTq28kzPsT5gg/h++x5Zv4tPgTv/3gzTP+yuIf6RDmD+Hb2aWkx8qFo9Z3m672zc7+qz9vHzNnsfVm890OEjw1vKinnNq0=
+  </data>
+ </layer>
+ <objectgroup name="objectLayer" width="20" height="30"/>
+</map>

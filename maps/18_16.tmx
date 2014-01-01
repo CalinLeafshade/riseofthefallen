@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="10" tilewidth="16" tileheight="16" backgroundcolor="#140c1c">
+ <properties>
+  <property name="cellX" value="18"/>
+  <property name="cellY" value="16"/>
+  <property name="name" value="Test Map"/>
+ </properties>
+ <tileset firstgid="1" name="Main" tilewidth="16" tileheight="16">
+  <image source="../tileset.png" width="160" height="176"/>
+  <tile id="23">
+   <properties>
+    <property name="type" value="block"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="111" name="utiltileset" tilewidth="16" tileheight="16">
+  <image source="../utiltileset.png" width="64" height="16"/>
+ </tileset>
+ <layer name="Tile Layer 3" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBj8QJ1ETE2zCJk/2M0j1/+kAGqahc/MgQAAD9cNGw==
+  </data>
+ </layer>
+ <layer name="Tile Layer 1" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBjcgIOB4QA1MaXuSWFgeEC5r+hnHgcaDmBgaCBkRgAWfTCMQz1OMwMIOxkrIMV+WgIAX6MWLQ==
+  </data>
+ </layer>
+ <layer name="Collisions" width="20" height="10" opacity="0.37">
+  <data encoding="base64" compression="zlib">
+   eJxjYBjcIJ/KmNruGezmoeNCBoYGQmYU4tGPzT58ZsLMIgXQOg5JAQCRihlR
+  </data>
+ </layer>
+ <objectgroup name="objectLayer" width="20" height="10"/>
+</map>
