@@ -28,7 +28,7 @@
  </layer>
  <layer name="Collisions" width="20" height="10" opacity="0.37">
   <data encoding="base64" compression="zlib">
-   eJxjYBjcIJ/KmNruGezmoeNCBoYGQmYU4tGPzT58ZsLMIgXQOg5JAQCRihlR
+   eJxjYBjcIJ/KmNruGezmoeMiIswoxKMfm334zISZRQqgdRySAgCQhxhT
   </data>
  </layer>
  <objectgroup name="objectLayer" width="20" height="10"/>

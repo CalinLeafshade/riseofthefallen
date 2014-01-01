@@ -146,7 +146,7 @@ function MapObject:update(dt)
 end
 
 function MapObject:getCell()
-	local x,y = self:getPosition()
+	local x,y = self:getCenter()
 	local m = self.map
 	local cx,cy = m.cell.x,m.cell.y
 	return cx + math.floor(x / 320), cy + math.floor(y / 160)
@@ -164,6 +164,11 @@ function MapObject:checkEdges()
 	elseif y > h then
 		self:leaveEdge("bottom")
 	end
+end
+
+function MapObject:setCenter(x,y)
+	local w,h = self:getSize()
+	self.x, self.y = x - w / 2, y - h / 2
 end
 
 function MapObject:applyFriction()

@@ -35,12 +35,11 @@ function World:changeMap(x,y)
 	local m = self.currentMap
 	local newMap,xx,yy = self:getMapAt(x,y)
 	if m and newMap then
-		local x,y = Player:getPosition()
+		local x,y = Player:getCenter()
 		local cx,cy = m.cell.x,m.cell.y
-		local pCellX, pCellY = cx + math.floor(x / 320), cy + math.floor(y / 160)
+		local pCellX, pCellY = Player:getCell() --cx + math.floor(x / 320), cy + math.floor(y / 160)
 		x,y = x % 320, y % 160
-		Player.x = x
-		Player.y = y
+		Player:setCenter(x,y)
 	end
 	if newMap then
 		print(xx,yy)
@@ -48,6 +47,7 @@ function World:changeMap(x,y)
 		Player.x = Player.x + (320 * xx)
 		Player.y = Player.y + (160 * yy)
 		self.camera:setBounds(0,0,newMap.width * 16, newMap.height * 16)
+		self.camera:lookAt(Player:getCenter())
 		newMap:enter()
 	end
 end
