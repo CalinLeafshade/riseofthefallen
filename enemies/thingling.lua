@@ -35,12 +35,28 @@ local states =
 			end
 		end,
 		leave = function() end
+	},
+	hurt = 
+	{
+		set = function(self,dx,dy)
+			self.animation = self.animations.hurt
+			self.onGround = false
+			dx = saturate(dx)
+			self.vx = dx * 200
+			self.vy = -200
+		end,
+		update = function(self,dt)
+			if self.onGround then
+				self:setState("walk")
+				self.isHurt = false
+			end
+		end
 	}
 		
 }
 
-function Thingling:collide(with,dx,dy)
-	
+function Thingling:hitWall(dir)
+	self.vx = dir == "left" and 50 or -50
 end
 
 function Thingling:initialize(x,y,props)

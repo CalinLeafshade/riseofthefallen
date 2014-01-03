@@ -1,4 +1,5 @@
 
+local lg = love.graphics
 local abs = math.abs
 --util
 
@@ -6,6 +7,22 @@ function clamp(val,min,max)
 	if val < min then return min
 	elseif val > max then return max
 	else return val end
+end
+
+function printfOutlined(text,x,y,limit,align,color)
+	color[4] = color[4] or 255
+	lg.setColor(0,0,0,color[4])
+	lg.printf(text,x-1,y,limit,align)
+	lg.printf(text,x+1,y,limit,align)
+	lg.printf(text,x,y-1,limit,align)
+	lg.printf(text,x,y+1,limit,align)
+	
+	lg.setColor(color)
+	lg.printf(text,x,y,limit,align)
+end
+
+function saturate(val)
+	return clamp(val,-1,1)
 end
 
 --- Lerps a value
@@ -30,6 +47,10 @@ end
 -- fast check that returns true if 2 boxes are intersecting
 function boxesIntersect(l1,t1,w1,h1, l2,t2,w2,h2)
   return l1 < l2+w2 and l1+w1 > l2 and t1 < t2+h2 and t1+h1 > t2
+end
+
+function contains(px,py, x,y,w,h)
+	return px >= x and px < x + w and py >= y and py < y + h
 end
 
 -- returns the area & minimum displacement vector given two intersecting boxes

@@ -103,6 +103,17 @@ function Map:attachObject(obj)
 	obj.map = self
 end
 
+function Map:getObjectsAt(x,y)
+	local o = {}
+	for i,v in pairs(self.objects) do
+		if v:contains(x,y) then
+			o[v] = v
+			table.insert(o,v)
+		end
+	end
+	return o
+end
+
 function Map:detachObject(obj)
 	self.objects[obj] = nil
 end
@@ -144,7 +155,7 @@ function Map:checkCollisions()
 	local collisions = {}
 	for i,v in pairs(self.objects) do
 		for ii,vv in pairs(self.objects) do
-			if v ~= vv then
+			if v ~= vv and v.solid and vv.solid then
 				local x1,y1,w1,h1 = v:bounds()
 				local x2,y2,w2,h2 = vv:bounds()
 				if boxesIntersect(x1,y1,w1,h1,x2,y2,w2,h2) then

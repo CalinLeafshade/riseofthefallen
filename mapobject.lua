@@ -20,6 +20,9 @@ function MapObject:initialize(x,y,props)
 	self.state = "idle"
 	self.lastHurt = 0
 	self.hurtTime = 2
+	self.health = 20
+	self.solid = true
+	self.weaknesses = {}
 	self.states = {
 		idle = {
 				set = function() end,
@@ -70,14 +73,14 @@ function MapObject:LeaveEdge(edge)
 	
 end
 
-function MapObject:setState(state)
+function MapObject:setState(state,...)
 	assert(self.states[state], "no state with that name")
 	if self.states[self.state] and self.states[self.state].leave then
-		self.states[self.state].leave(self)
+		self.states[self.state].leave(self,...)
 	end
 	self.state = state
 	if self.states[state].set then
-		self.states[state].set(self)
+		self.states[state].set(self,...)
 	end
 end
 
@@ -95,6 +98,10 @@ function MapObject:getTilesCovered()
 		end
 	end
 	return o
+end
+
+function MapObject:contains(x,y)
+	return contains(x,y,self:bounds())
 end
 
 function MapObject:bounds()
@@ -116,11 +123,30 @@ function MapObject:draw()
 end
 
 function MapObject:collide(with)
-	print("collision")
+	
 end
 
-function MapObject:hurt(pwr)
-	
+function MapObject:hurt(pwr,dx,dy, dmgType)
+	dmgType = dmgType or "normal"
+	local multiplier = self.weaknesses[dmgType] or 1
+	pwr = pwr * multiplier
+	local x = self:getCenter()
+	local y = self.y
+	Bubble(x,y - 15,pwr,{200,0,0})
+	self.health = self.health - pwr
+	self:setState("hurt",dx,dy,dmgType)
+	if self.health <= 0 then
+		self.health = 0
+		self:die()
+	end
+end
+
+function MapObject:die()
+	self.map:detachObject(self)
+end
+
+function MapObject:bottom()
+	return self.y + self:getHeight()
 end
 
 function MapObject:update(dt)
@@ -177,6 +203,10 @@ function MapObject:applyFriction()
 	self.vx = self.vx * f
 end
 
+function MapObject:hitWall(dir)
+	
+end
+
 function MapObject:move(dt)
 	local vx,vy = self.vx,self.vy
 	if self.gravity then
@@ -201,7 +231,9 @@ function MapObject:move(dt)
 		local t = self.map:tileType(tx,y)
 		if t == "solid" then -- hit wall
 			col = true
+			
 			self.vx = 0
+			self:hitWall(vx < 0 and "left" or "right")
 			if vx < 0 then
 				futureX = tx * self.map.tileWidth + self.map.tileWidth
 			else
@@ -240,7 +272,7 @@ function MapObject:move(dt)
 	
 	for x=leftX, rightX do
 		local t = self.map:tileType(x,ty)
-		if t == "solid" then 
+		if t == "solid" or (t == "up" and vy > 0) and self:bottom() <= ty * 16 then 
 			self.vy = 0
 			if vy > 0 then -- falling
 				self.onGround = true

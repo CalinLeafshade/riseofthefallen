@@ -9,6 +9,7 @@ require('map')
 require('mapobject')
 require('player')
 require('enemy')
+require('bubble')
 
 local currentMap
 local mainCanvas
