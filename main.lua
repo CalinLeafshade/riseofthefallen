@@ -4,12 +4,14 @@ Class = require('middleclass')
 Scale = 3
 
 require('util')
+require('input')
 require('world')
 require('map')
 require('mapobject')
 require('player')
 require('enemy')
 require('bubble')
+require('smoke')
 
 local currentMap
 local mainCanvas
@@ -24,21 +26,23 @@ end
 
 function love.update(dt)
 	Player.ax = 0
-	if love.keyboard.isDown("left") then
+	if Input:isDown("left") then
 		Player.ax = Player.onGround and -30 or -10
-	elseif love.keyboard.isDown("right") then
+	elseif Input:isDown("right") then
 		Player.ax = Player.onGround and 30 or 10
 	end
+	if Input:isNew("jump") then
+		Player:jump()
+	end
+	if Input:isNew("attack") then
+		Player:attack()
+	end
 	world:update(dt)
-	
+	Input:update()
 end
 
 function love.keypressed(key)
-	if key == "up" then
-		Player:jump()
-	elseif key == "z" then
-		Player:attack()
-	elseif key == "q" then
+	if key == "q" then
 		love.event.push("quit")
 	end
 

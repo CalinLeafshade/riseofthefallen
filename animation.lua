@@ -50,6 +50,14 @@ function Animation:reset()
     self.counter = 0
 end
 
+function Animation:getWidth()
+	return self.width
+end
+
+function Animation:getHeight()
+	return self.height
+end
+
 function Animation:genQuads()
     self.quads = {}
     for i = 1, self.count + 1 do

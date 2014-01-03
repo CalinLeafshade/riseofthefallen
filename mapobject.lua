@@ -109,7 +109,12 @@ function MapObject:bounds()
 end
 
 function MapObject:draw()
-	if self.animation then
+	if self.sprite then
+		local c = self.color or {255,255,255}
+		c[4] = self.alpha or 255
+		love.graphics.setColor(c)
+		love.graphics.draw(self.sprite,math.floor(self.x + self:getWidth() / 2) , math.floor(self.y + self:getHeight() / 2), self.rotation or 0, self.scale or 1,self.scale or 1,self:getWidth() / 2, self:getHeight() / 2)
+	elseif self.animation then
 		if self:isInvincible() then
 			love.graphics.setColor(255,255,255,math.sin(love.timer.getTime() * 10) * 64 + 128)
 		else
@@ -142,6 +147,13 @@ function MapObject:hurt(pwr,dx,dy, dmgType)
 end
 
 function MapObject:die()
+	local x1,y1,x2,y2 = self:bbox()
+	local p = math.abs((x2 - x1) * (y2 - y1))
+	local cx,cy = self:getCenter()
+	local w,h = self:getSize()
+	for i=1,p / 10 do
+		Smoke(cx + math.random(-w/2,w/2) * (math.random() * math.random()),cy + math.random(-h/ 2,h/2) * (math.random() * math.random()))
+	end
 	self.map:detachObject(self)
 end
 
@@ -177,6 +189,8 @@ function MapObject:getCell()
 	local cx,cy = m.cell.x,m.cell.y
 	return cx + math.floor(x / 320), cy + math.floor(y / 160)
 end
+
+function MapObject:leaveEdge() end
 
 function MapObject:checkEdges()
 	local x,y = self:getCenter()
