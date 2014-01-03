@@ -14,7 +14,7 @@ Input =
 		jump = 1,
 		attack = 2
 	},
-	deadzone = 0.1,
+	deadzone = 0.5,
 	last = {}
 }
 

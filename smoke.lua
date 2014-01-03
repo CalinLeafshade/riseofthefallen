@@ -29,3 +29,5 @@ function Smoke:update(dt)
 		self.map:detachObject(self)
 	end
 end
+
+function Smoke:contains() return false end
