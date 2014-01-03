@@ -47,8 +47,10 @@ function Input:update()
 		self.last[i] = love.keyboard.isDown(v)
 	end
 	local joypad = love.joystick.getJoysticks()[1]
-	for i,v in pairs(self.buttons) do
-		self.last[i] = self.last[i] or joypad:isDown(v)
+	if joypad then
+		for i,v in pairs(self.buttons) do
+			self.last[i] = self.last[i] or joypad:isDown(v)
+		end
 	end
 end
 

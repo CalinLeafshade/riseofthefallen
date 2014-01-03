@@ -179,7 +179,12 @@ function MapObject:update(dt)
 	end
 	if self.friction then self:applyFriction() end
 	
-	self:move(dt)
+	if self.solid then
+		self:move(dt)
+	else
+		self.x = self.x + self.vx * dt
+		self.y = self.y + self.vy * dt
+	end
 	self:checkEdges()
 end
 
