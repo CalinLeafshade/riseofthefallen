@@ -27,6 +27,7 @@ function Player:hurt(pwr,vx,vy)
 end
 
 function Player:attack()
+	if not self:getState().canAttack then return end
 	self:setState("attack")
 	local tx,ty = self:getCenter()
 	local range = self.dir == "left" and -self.range or self.range
@@ -66,6 +67,7 @@ Player.states =
 {
 	idle = 
 	{
+		canAttack = true,
 		set = function(self)
 			self.animation = self.animations.idle
 			self.animation:reset()-- = self.animations.idle
@@ -79,6 +81,7 @@ Player.states =
 	},
 	walk = 
 	{
+		canAttack = true,
 		set = function(self)
 			self.animation = self.animations.walk
 		end,
@@ -93,6 +96,7 @@ Player.states =
 	},
 	jump =
 	{
+		canAttack = true,
 		set = function(self)
 			self.animation = self.animations.jump
 		end,
@@ -105,6 +109,7 @@ Player.states =
 	},
 	fall = 
 	{
+		canAttack = true,
 		set = function(self)
 			self.animation = self.animations.fall
 		end,

@@ -211,6 +211,10 @@ function MapObject:checkEdges()
 	end
 end
 
+function MapObject:getState()
+	return self.states[self.state] or {}
+end
+
 function MapObject:setCenter(x,y)
 	local w,h = self:getSize()
 	self.x, self.y = x - w / 2, y - h / 2
