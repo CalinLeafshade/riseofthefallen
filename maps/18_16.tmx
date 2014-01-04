@@ -6,14 +6,14 @@
   <property name="name" value="Test Map"/>
  </properties>
  <tileset firstgid="1" name="Main" tilewidth="16" tileheight="16">
-  <image source="../tileset.png" width="160" height="176"/>
+  <image source="../tileset.png" width="160" height="256"/>
   <tile id="23">
    <properties>
     <property name="type" value="block"/>
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="111" name="utiltileset" tilewidth="16" tileheight="16">
+ <tileset firstgid="161" name="utiltileset" tilewidth="16" tileheight="16">
   <image source="../utiltileset.png" width="64" height="16"/>
  </tileset>
  <layer name="Tile Layer 3" width="20" height="10">
@@ -23,12 +23,12 @@
  </layer>
  <layer name="Tile Layer 1" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBjcgIOB4QA1MaXuSWFgeEC5r+hnHgcaDmBgaCBkRgAWfTCMQz1OMwMIOxkrIMV+WgIAX6MWLQ==
+   eJxjYBjcgIOB4QA1MaXuSWdgWEC5r+hnHgcaDmBgaCBkRgAWfTCMQz1OMwMIOxkrIMV+WgIAOHQVdg==
   </data>
  </layer>
  <layer name="Collisions" width="20" height="10" opacity="0.37">
   <data encoding="base64" compression="zlib">
-   eJxjYBjcIJ/KmNruGezmoeMiIswoxKMfm334zISZRQqgdRySAgCQhxhT
+   eJxjYBjcYCGVMbXdM9jNQ8dLiDBjMR792OzDZybMLFIAreOQFAAAdoYjQw==
   </data>
  </layer>
  <objectgroup name="objectLayer" width="20" height="10"/>
