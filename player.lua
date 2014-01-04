@@ -21,10 +21,10 @@ local states =
 		canAttack = true,
 		set = function(self)
 			self.animation = self.animations.idle
-			self.animation:reset()-- = self.animations.idle
+			self.animation:reset()
 		end,
 		update = function(self)
-			if math.abs(self.ax) > 0 and self.onGround then
+			if math.abs(self.vx) > 0 and self.onGround then
 				self:setState("walk")
 			end				
 		end,
@@ -38,8 +38,12 @@ local states =
 		end,
 		update = function(self,dt)
 			self.animation:update(dt * clamp((math.abs(self.vx * 4) / self.maxLateralSpeed),0,1))
-			if math.abs(self.vx) < 1 and self.onGround then
+			if math.abs(self.vx) < 10 and self.onGround then
+				self.vx = 0
 				self:setState("idle")
+			end
+			if self.vy > 150 then
+				self:setState("fall")
 			end
 			
 		end,
@@ -62,6 +66,7 @@ local states =
 	{
 		canAttack = true,
 		set = function(self)
+			self.onGround = false
 			self.animation = self.animations.fall
 		end,
 		update = function(self)
@@ -122,7 +127,10 @@ local states =
 
 function Player:initialize(x,y,props)
 	MapObject.initialize(self,x,y,props)
+	self.maxHealth = 50
 	self.health = 50
+	self.mana = 50
+	self.maxMana = 100
 	self.power = 10
 	self.range = 32
 	self.animations = animations
@@ -139,11 +147,19 @@ function Player:jump()
 	
 end
 
+function Player:interact()
+	local o = self:getOverlappingObjects()
+	for i,v in ipairs(o) do
+		v:interact()
+	end
+end
+
 function Player:hurt(pwr,vx,vy)
 	if self.state == "hurt" or self:isInvincible() then
 		return false
 	end
 	self.lastHurt = love.timer.getTime()
+	self.health = self.health - pwr
 	print("player was hurt")
 	local x = self:getCenter()
 	local y = self.y
@@ -156,6 +172,12 @@ function Player:drop()
 	self.y = self.y + 1
 	self.onGround = false
 	self:setState("fall")
+end
+
+function Player:setState(...)
+	local t = {...}
+	print("player state set to " .. t[1])
+	MapObject.setState(self,...)
 end
 
 function Player:attack()

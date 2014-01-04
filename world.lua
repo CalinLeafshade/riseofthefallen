@@ -38,7 +38,7 @@ end
 
 function World:changeMap(x,y)
 	print("Changing to " .. x .. ", " .. y)
-	local m = self.currentMap
+	local m = player.map
 	local newMap,xx,yy = self:getMapAt(x,y)
 	if m and newMap then
 		local x,y = player:getCenter()
@@ -113,10 +113,11 @@ function World:drawMiniMap()
 end
 
 function World:update(dt)
-	self.camera:lookAt(player:getPosition())
+	self.camera:lookAt(player:getCenter())
 	if self.currentMap then
 		self.currentMap:update(dt)
 	end
+	log("Camera:", self.camera:pos())
 end
 
 function World:draw()

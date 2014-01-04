@@ -1,9 +1,16 @@
 
+require('datadumper')
 require('player')
 
 State = Class("State")
 
+function State.static.loadFromSlot(slot)
+	local data = love.filesystem.load("save" .. slot .. ".lua")()
+	return State(data.player.x, data.player.y, data.cell.x, data.cell.y)
+end
+
 function State:initialize(startX, startY, startCellX, startCellY)
+	
 	self.visited = {}
 	self.player = Player(startX, startY)
 	self.mapSize = {0,0,0,0}
@@ -28,3 +35,15 @@ function State:update(dt)
 	local x,y = player:getCell()
 	self:setVisited(x,y)
 end
+
+function State:save(slot)
+	local data = 
+	{
+		cell = player.map.cell,
+		player = { x = player.x, y = player.y }
+	}
+	data = DataDumper(data)
+	love.filesystem.write("save" .. slot .. ".lua",data)
+	log(nil,"Saved!")
+end
+

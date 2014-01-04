@@ -8,7 +8,8 @@ Input =
 		right = "right",
 		down = "down",
 		jump = "z",
-		attack = "x"
+		attack = "x",
+		use = "up"
 	},
 	buttons = 
 	{

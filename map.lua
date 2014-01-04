@@ -1,5 +1,6 @@
 local bit32 = require('bit')
 require('tileset')
+require('savefountain')
 
 Map = Class('map')
 
@@ -25,6 +26,7 @@ function Map:initialize(def)
 	self.layers = {}
 	self.backgroundColor = {20,12,28}
 	self.objects = {}
+	self.staticObjects = {}
 	self.exits = {}
 	self.enemySpawns = {}
 	self.name = def.properties.name
@@ -50,14 +52,18 @@ end
 
 Map.objectProcessors = 
 {
-	Exit = function(map, obj)
+	exit = function(map, obj)
 		local o = { x = obj.x, y = obj.y, width = obj.width, height = obj.height, target = obj.name }
 		table.insert(map.exits,o)
 	end,
-	Enemy = function(map,obj)
+	enemy = function(map,obj)
 		local o = { x = obj.x, y = obj.y - 16, type = obj.name, props = obj.properties }
 		table.insert(map.enemySpawns, o)
 	end,
+	save = function(map,obj)
+		map.saveRoom = true
+		table.insert(map.staticObjects, SaveFountain(obj.x,obj.y))
+	end
 	
 }
 
@@ -88,12 +94,15 @@ end
 function Map:enter()
 	self.objects = {}
 	self:attachObject(player)
+	for i,v in ipairs(self.staticObjects) do
+		self:attachObject(v)
+	end
 	self:spawnEnemies()
 end
 
 function Map:processObjects(layer)
 	for i,v in ipairs(layer.objects) do
-		self.objectProcessors[v.type](self, v)
+		self.objectProcessors[v.type:lower()](self, v)
 	end
 	table.insert(self.layers, {type = "objectlayer"})
 end

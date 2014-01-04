@@ -31,7 +31,9 @@
    eJxbyMDAsHAAMS5Arj5am7cIimnlPmqBoWLeYMcA1n5CrQ==
   </data>
  </layer>
- <objectgroup name="objectLayer" width="20" height="10" visible="0"/>
+ <objectgroup name="objectLayer" width="20" height="10">
+  <object type="save" x="176" y="80" width="32" height="48"/>
+ </objectgroup>
  <layer name="Tile Layer over" width="20" height="10">
   <data encoding="base64" compression="zlib">
    eJxjYBgFgwkUI2FqmkctgM+8BCL0x1PPKXQBAJ1gA+U=

@@ -1,5 +1,6 @@
+require('mapobject')
 
-Bubble = Class("Bubble")
+Bubble = Class("Bubble", MapObject)
 
 local font = love.graphics.newFont("fonts/tiny.ttf", 16)
 local lg = love.graphics

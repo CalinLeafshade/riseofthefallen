@@ -190,6 +190,23 @@ function MapObject:update(dt)
 		self.y = self.y + self.vy * dt
 	end
 	self:checkEdges()
+
+end
+
+function MapObject:getOverlappingObjects()
+	local o = {}
+	local x,y,w,h = self:bounds()
+	for i,v in pairs(self.map.objects) do
+		print(self,v)
+		if v ~= self and boxesIntersect(x,y,w,h, v:bounds()) then
+			table.insert(o,v)
+		end
+	end
+	return o
+end
+
+function MapObject:interact()
+
 end
 
 function MapObject:getCell()
@@ -235,13 +252,13 @@ function MapObject:hitWall(dir)
 end
 
 function MapObject:move(dt)
+	
 	local vx,vy = self.vx,self.vy
 	if self.gravity then
 		self.vy = self.vy + 1000 * dt
 	end
 	if vx == 0 and vy == 0 then return end
 	local futureX, futureY = self.x + vx * dt, self.y + vy * dt
-	
 	-- x first
 	local tx
 	if vx < 0 then
@@ -258,7 +275,6 @@ function MapObject:move(dt)
 		local t = self.map:tileType(tx,y)
 		if t == "solid" then -- hit wall
 			col = true
-			
 			self.vx = 0
 			self:hitWall(vx < 0 and "left" or "right")
 			if vx < 0 then

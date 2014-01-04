@@ -3,6 +3,7 @@ Class = require('middleclass')
 
 Scale = 3
 
+require('logger')
 require('util')
 require('input')
 require('world')
@@ -12,12 +13,13 @@ require('state')
 require('enemy')
 require('bubble')
 require('smoke')
+require('gui')
 
 local currentMap
 local mainCanvas
 
 function love.load()
-	love.window.setMode(320 * Scale, 180 * Scale)
+	love.window.setMode(320 * Scale, 180 * Scale, {vsync = true})
 	mainCanvas = love.graphics.newCanvas(320,180)
 	mainCanvas:setFilter("nearest", "nearest")
 	world = World("maps")
@@ -38,12 +40,17 @@ function love.update(dt)
 			player:jump()
 		end
 	end
+	if Input:isNew("use") then
+		player:interact()
+	end
 	if Input:isNew("attack") then
 		player:attack()
 	end
 	world:update(dt)
 	Input:update()
 	state:update(dt)
+	Logger:update(dt)
+	GUI:update(dt)
 end
 
 function love.keypressed(key)
@@ -51,6 +58,8 @@ function love.keypressed(key)
 		love.event.push("quit")
 	elseif key == "m" then
 		world.showMiniMap = not world.showMiniMap
+	elseif key == "l" then
+		state = State.loadFromSlot(1)
 	end
 
 end
@@ -59,6 +68,9 @@ function love.draw()
 	love.graphics.setCanvas(mainCanvas)
 	world:draw()
 	love.graphics.setColor(255,255,255)
+	GUI:draw()
 	love.graphics.setCanvas()
 	love.graphics.draw(mainCanvas,0,0,0, Scale,Scale)
+	
+	Logger:draw()
 end

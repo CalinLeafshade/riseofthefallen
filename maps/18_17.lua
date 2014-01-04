@@ -122,10 +122,22 @@ return {
     {
       type = "objectgroup",
       name = "objectLayer",
-      visible = false,
+      visible = true,
       opacity = 1,
       properties = {},
-      objects = {}
+      objects = {
+        {
+          name = "",
+          type = "save",
+          shape = "rectangle",
+          x = 176,
+          y = 80,
+          width = 32,
+          height = 48,
+          visible = true,
+          properties = {}
+        }
+      }
     },
     {
       type = "tilelayer",
