@@ -18,7 +18,7 @@ function MapObject:initialize(x,y,props)
 	self.gravity = true
 	self.dir = "right"
 	self.state = "idle"
-	self.lastHurt = 0
+	self.lastHurt = 1
 	self.hurtTime = 2
 	self.health = 20
 	self.solid = true
@@ -146,6 +146,10 @@ function MapObject:hurt(pwr,dx,dy, dmgType)
 	end
 end
 
+function MapObject:remove()
+	self.map:detachObject(self)
+end
+
 function MapObject:die()
 	local x1,y1,x2,y2 = self:bbox()
 	local p = math.abs((x2 - x1) * (y2 - y1))
@@ -154,7 +158,7 @@ function MapObject:die()
 	for i=1,p / 10 do
 		Smoke(cx + math.random(-w/2,w/2) * (math.random() * math.random()),cy + math.random(-h/ 2,h/2) * (math.random() * math.random()))
 	end
-	self.map:detachObject(self)
+	self:remove()
 end
 
 function MapObject:bottom()

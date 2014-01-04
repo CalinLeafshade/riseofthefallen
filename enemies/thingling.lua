@@ -74,8 +74,8 @@ function Thingling:initialize(x,y,props)
 end
 
 function Thingling:collide(with,vx,vy)
-	if with == Player and self.state == "walk" then
-		if Player:hurt(1,vx,vy) then
+	if with == player and self.state == "walk" then
+		if player:hurt(1,vx,vy) then
 			self:setState("attack")
 		end
 		

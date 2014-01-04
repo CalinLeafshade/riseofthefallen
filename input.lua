@@ -6,6 +6,7 @@ Input =
 	{
 		left = "left",
 		right = "right",
+		down = "down",
 		jump = "z",
 		attack = "x"
 	},
@@ -30,6 +31,8 @@ function Input:isDown(k)
 				val = joypad:getAxis(1) < -self.deadzone
 			elseif k == "right" then
 				val = joypad:getAxis(1) > self.deadzone
+			elseif k == "down" then
+				val = joypad:getAxis(0) > self.deadzone
 			elseif self.buttons[k] then
 				val = joypad:isDown(self.buttons[k])
 			end

@@ -87,7 +87,7 @@ end
 
 function Map:enter()
 	self.objects = {}
-	self:attachObject(Player)
+	self:attachObject(player)
 	self:spawnEnemies()
 end
 
@@ -149,6 +149,40 @@ function Map:processCollisionLayer(layer)
 		end
 	end
 	self.collisionLayer = l
+	self:processExits()
+end
+
+function Map:processExits()
+	local exits = {}
+	
+	exits.left = {}
+	for y=0,self.height-1 do
+		if self:tileType(0,y) ~= "solid" then
+			exits.left[math.floor(y/10)] = true
+		end
+	end
+		
+	exits.right = {}
+	for y=0,self.height-1 do
+		if self:tileType(self.width - 1,y) ~= "solid" then
+			exits.right[math.floor(y/10)] = true
+		end
+	end
+	
+	exits.top = {}
+	for x=0,self.width-1 do
+		if self:tileType(x,0) ~= "solid" then
+			exits.top[math.floor(x/20)] = true
+		end
+	end
+	
+	exits.bottom = {}
+	for x=0,self.width-1 do
+		if self:tileType(x,self.height - 1) ~= "solid" then
+			exits.bottom[math.floor(x/20)] = true
+		end
+	end
+	self.exits = exits
 end
 
 function Map:checkCollisions()
@@ -183,7 +217,7 @@ function Map:drawObjects()
 	for i,v in pairs(self.objects) do
 		v:draw()
 	end	
-	Player:draw() -- HACK Draw the player again so he's on top.
+	player:draw() -- HACK Draw the player again so he's on top.
 end
 
 function Map:draw(lowerX, lowerY, upperX, upperY)

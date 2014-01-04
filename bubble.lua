@@ -12,8 +12,8 @@ function Bubble:initialize(x,y,text,color)
 	self.text = text
 	self.color = color
 	self.color[4] = 255
-	if Player.map then -- always attach to active map
-		Player.map:attachObject(self)
+	if player.map then -- always attach to active map
+		player.map:attachObject(self)
 	end
 end
 
