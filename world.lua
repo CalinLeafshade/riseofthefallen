@@ -6,7 +6,7 @@ World = Class("World")
 
 function World:loadMaps()
 	local files = love.filesystem.getDirectoryItems(self.mapDir)
-	local minX,maxX,minY,maxY = 0,0,0,0
+	local minX,maxX,minY,maxY = math.huge,-math.huge,math.huge,-math.huge
 	for i,v in ipairs(files) do
 		if string.endsWith(v, ".lua") then
 			local m = Map("maps/" .. v)
@@ -25,6 +25,7 @@ function World:loadMaps()
 		end
 	end
 	self.dimensions = { minX, maxX, minY, maxY }
+	
 end
 
 function World:initialize(mapDir)
@@ -72,32 +73,33 @@ function World:getMapAt(x,y)
 end
 
 function World:drawMiniMap()
-	
+	local cellWidth = 5
+	local cellHeight = 5
 	local function drawMap(m)
 		
 		for i,v in ipairs(m:getCells()) do
-			if state:isVisited(v[1],v[2]) then
-				local x,y = v[1] * 10, v[2] * 5
+			if savestate:isVisited(v[1],v[2]) then
+				local x,y = v[1] * cellWidth, v[2] * cellHeight
 				love.graphics.setLineWidth(1)
 				love.graphics.setLineStyle("rough")
 				love.graphics.setColor(0,0,128)
-				love.graphics.rectangle("fill",x + 0.5,y + 0.5, 10, 5)
+				love.graphics.rectangle("fill",x + 0.5,y + 0.5, cellWidth, cellHeight)
 				love.graphics.setColor(255,255,255)
 				local dirs = {}
 				if v[1] == m.cell.x then
-					love.graphics.line(x, y, x, y + 5)
+					love.graphics.line(x, y, x, y + cellHeight)
 					dirs.left = true
 				end
 				if v[1] == m.cell.x + ((m.width / 20) - 1) then
-					love.graphics.line(x + 10, y, x + 10, y + 5)
+					love.graphics.line(x + cellWidth, y, x + cellWidth, y + cellHeight)
 					dirs.right = true
 				end
 				if v[2] == m.cell.y then
-					love.graphics.line(x, y, x + 10, y)
+					love.graphics.line(x, y, x + cellWidth, y)
 					dirs.top = true
 				end
 				if v[2] == m.cell.y + ((m.height / 10) - 1) then
-					love.graphics.line(x - 1, y + 5, x + 10, y + 5)
+					love.graphics.line(x - 1, y + cellHeight, x + cellWidth, y + cellHeight)
 					dirs.bottom = true
 				end
 				love.graphics.setColor(0,0,128)
@@ -114,18 +116,18 @@ function World:drawMiniMap()
 						local xx2 = xx
 						local yy2 = yy + 2
 						if dir == "right" then
-							xx = xx + 10
+							xx = xx + cellWidth
 							xx2 = xx
 						elseif dir == "top" then
 							yy = y
 							yy2 = yy
-							xx = x + 3
-							xx2 = xx + 4
+							xx = x + 1
+							xx2 = xx + 2
 						elseif dir == "bottom" then
-							yy = y + 5
+							yy = y + cellHeight
 							yy2 = yy
-							xx = x + 3
-							xx2 = xx + 4
+							xx = x + 1
+							xx2 = xx + 2
 						end
 						love.graphics.line(xx,yy,xx2,yy2)
 					end
@@ -133,15 +135,16 @@ function World:drawMiniMap()
 					
 				if player.map == m then
 					love.graphics.setColor(255,255,255, (math.sin(love.timer.getTime() * 10) + 1) * 128)
-					love.graphics.rectangle("fill",x + 0.5,y + 0.5, 10, 5)
+					love.graphics.rectangle("fill",x + 0.5,y + 0.5, cellWidth, cellHeight)
 				end
 			end
 		end
 	end
-	local cx = self.dimensions[1] + (self.dimensions[2] - self.dimensions[1]) / 2
-	local cy = self.dimensions[3] + (self.dimensions[4] - self.dimensions[3]) / 2
+	local cx = (self.dimensions[1] + self.dimensions[2]) / 2
+	local cy = (self.dimensions[3] + self.dimensions[4]) / 2
+	print(cx,cy)
 	love.graphics.push()
-	love.graphics.translate(round(cx * 16 - 168),round(cy * 10 - 90))
+	love.graphics.translate(-round(cx * cellWidth) + 160,-round(cy * cellHeight) + 90)
 	for _,map in ipairs(self.maps) do
 		drawMap(map)
 	end
@@ -167,8 +170,5 @@ function World:draw()
 		self.camera:detach()
 		love.graphics.setCanvas(oldCanvas)
 		love.graphics.draw(self.canvas,0,0)
-		if self.showMiniMap then
-			self:drawMiniMap()
-		end
 	end
 end

@@ -188,7 +188,10 @@ function Player:attack()
 	end
 	o[self] = nil -- dont attack player
 	for i,v in pairs(o) do
-		v:hurt(self.power, v.x - self.x, v.y - self.y)
+		print(v, v.solid)
+		if v.solid and not v.static then
+			v:hurt(self.power, v.x - self.x, v.y - self.y)
+		end
 	end
 end
 

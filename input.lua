@@ -9,12 +9,15 @@ Input =
 		down = "down",
 		jump = "z",
 		attack = "x",
-		use = "up"
+		use = "up",
+		map = "m"
 	},
 	buttons = 
 	{
 		jump = 1,
-		attack = 2
+		attack = 2,
+		map = 3,
+		use = 4
 	},
 	deadzone = 0.5,
 	last = {}
