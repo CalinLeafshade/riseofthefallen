@@ -83,18 +83,54 @@ function World:drawMiniMap()
 				love.graphics.setColor(0,0,128)
 				love.graphics.rectangle("fill",x + 0.5,y + 0.5, 10, 5)
 				love.graphics.setColor(255,255,255)
+				local dirs = {}
 				if v[1] == m.cell.x then
 					love.graphics.line(x, y, x, y + 5)
+					dirs.left = true
 				end
 				if v[1] == m.cell.x + ((m.width / 20) - 1) then
 					love.graphics.line(x + 10, y, x + 10, y + 5)
+					dirs.right = true
 				end
 				if v[2] == m.cell.y then
 					love.graphics.line(x, y, x + 10, y)
+					dirs.top = true
 				end
 				if v[2] == m.cell.y + ((m.height / 10) - 1) then
 					love.graphics.line(x - 1, y + 5, x + 10, y + 5)
+					dirs.bottom = true
 				end
+				love.graphics.setColor(0,0,128)
+				for dir,_ in pairs(dirs) do
+					local i
+					if dir == "left" or dir == "right" then
+						i = (v[2] - m.cell.y)
+					else
+						i = (v[1] - m.cell.x)
+					end
+					if m.exits[dir][i] then
+						local xx = x
+						local yy = y + 2
+						local xx2 = xx
+						local yy2 = yy + 2
+						if dir == "right" then
+							xx = xx + 10
+							xx2 = xx
+						elseif dir == "top" then
+							yy = y
+							yy2 = yy
+							xx = x + 3
+							xx2 = xx + 4
+						elseif dir == "bottom" then
+							yy = y + 5
+							yy2 = yy
+							xx = x + 3
+							xx2 = xx + 4
+						end
+						love.graphics.line(xx,yy,xx2,yy2)
+					end
+				end
+					
 				if player.map == m then
 					love.graphics.setColor(255,255,255, (math.sin(love.timer.getTime() * 10) + 1) * 128)
 					love.graphics.rectangle("fill",x + 0.5,y + 0.5, 10, 5)

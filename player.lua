@@ -174,12 +174,6 @@ function Player:drop()
 	self:setState("fall")
 end
 
-function Player:setState(...)
-	local t = {...}
-	print("player state set to " .. t[1])
-	MapObject.setState(self,...)
-end
-
 function Player:attack()
 	if not self:getState().canAttack then return end
 	self:setState("attack")

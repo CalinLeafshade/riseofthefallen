@@ -19,7 +19,21 @@ function Tileset:initialize(image, tileWidth, tileHeight)
 	end
 end
 
+function Tileset:processTiles(tiles)
+	self.animations = self.animations or {}
+	print(DataDumper(tiles))
+	for i,v in ipairs(tiles) do
+		if v.properties.animation then
+			self.animations[v.id + 1] = tonumber(v.properties.animation)
+		end
+	end
+end
+
 function Tileset:draw(tileID,x,y,r,sx,sy)
+	
+	if self.animations[tileID] then
+		tileID = tileID + round(love.timer.getTime() * 10) % self.animations[tileID] 
+	end
 	if self.quads[tileID] then
 		love.graphics.draw(self.image, self.quads[tileID], x + self.tileWidth / 2, y + self.tileHeight / 2,r,sx,sy, self.tileWidth / 2, self.tileHeight / 2)
 	end

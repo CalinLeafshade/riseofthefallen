@@ -37,6 +37,8 @@ function Map:initialize(def)
 	for i,v in ipairs(def.tilesets) do -- find util tileset starting
 		if v.name == "utiltileset" then
 			self.utiloffset = v.firstgid - 1
+		else
+			tileset:processTiles(v.tiles or {})
 		end
 	end
 	for i,v in ipairs(def.layers) do
@@ -181,6 +183,7 @@ function Map:processExits()
 	exits.top = {}
 	for x=0,self.width-1 do
 		if self:tileType(x,0) ~= "solid" then
+			print(self.cell.x, self.cell.y, self:tileType(x,0))
 			exits.top[math.floor(x/20)] = true
 		end
 	end
