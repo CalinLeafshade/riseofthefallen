@@ -5,30 +5,21 @@
   <property name="cellY" value="16"/>
   <property name="name" value="Test Map"/>
  </properties>
- <tileset firstgid="1" name="Main" tilewidth="16" tileheight="16">
-  <image source="../tileset.png" width="160" height="256"/>
-  <tile id="23">
-   <properties>
-    <property name="type" value="block"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="161" name="utiltileset" tilewidth="16" tileheight="16">
-  <image source="../utiltileset.png" width="64" height="16"/>
- </tileset>
+ <tileset firstgid="1" source="Main.tsx"/>
+ <tileset firstgid="161" source="utiltileset.tsx"/>
  <layer name="Tile Layer 3" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBj8QJ1ETE2zCJk/2M0j1/+kAGqahc/MgQAAD9cNGw==
+   eJyrYWBgqBnEGATUScT4ALpaXxKwPxY+NvPQ1aHr8cMiDhPDZp4fATPRzUdWiw6I9SsugC1+iDGLGnGOyw20xADBKEAP
   </data>
  </layer>
  <layer name="Tile Layer 1" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBjcgIOB4QA1MaXuSWdgWEC5r+hnHgcaDmBgaCBkRgAWfTCMQz1OMwMIOxkrIMV+WgIAOHQVdg==
+   eJxjYBjcoJKBwYGaGJ9dCQwMBwi5pw6sjHqA1uZVouFaBoYGZHl9IDZAM6MWiz4YRgfVQPOQzbQEYisoOx5qVjWJfgCZict+Us2iFAAA60gg0A==
   </data>
  </layer>
  <layer name="Collisions" width="20" height="10" opacity="0.37">
   <data encoding="base64" compression="zlib">
-   eJxjYBjcYCGVMbXdM9jNQ8dLiDBjMR792OzDZybMLFIAreOQFAAAdoYjQw==
+   eJxbyMDAsJDKmFqA2u6ihtuo6T96mIfu/yVEmLEYiz5cYYhu5iIoRjcLl1uxyZEbh7RILwDqLjvM
   </data>
  </layer>
  <objectgroup name="objectLayer" width="20" height="10"/>

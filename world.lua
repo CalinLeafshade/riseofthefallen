@@ -95,7 +95,7 @@ function World:drawMiniMap()
 					dirs.right = true
 				end
 				if v[2] == m.cell.y then
-					love.graphics.line(x, y, x + cellWidth, y)
+					love.graphics.line(x - 1, y, x + cellWidth, y)
 					dirs.top = true
 				end
 				if v[2] == m.cell.y + ((m.height / 10) - 1) then
@@ -112,7 +112,7 @@ function World:drawMiniMap()
 					end
 					if m.exits[dir][i] then
 						local xx = x
-						local yy = y + 2
+						local yy = y + 1
 						local xx2 = xx
 						local yy2 = yy + 2
 						if dir == "right" then
@@ -134,7 +134,7 @@ function World:drawMiniMap()
 				end
 					
 				if player.map == m then
-					love.graphics.setColor(255,255,255, (math.sin(love.timer.getTime() * 10) + 1) * 128)
+					love.graphics.setColor(255,255,255, (math.sin(love.timer.getTime() * 10) + 1) * 127)
 					love.graphics.rectangle("fill",x + 0.5,y + 0.5, cellWidth, cellHeight)
 				end
 			end

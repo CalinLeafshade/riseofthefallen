@@ -5,17 +5,8 @@
   <property name="cellY" value="17"/>
   <property name="name" value="Test Map"/>
  </properties>
- <tileset firstgid="1" name="Main" tilewidth="16" tileheight="16">
-  <image source="../tileset.png" width="160" height="256"/>
-  <tile id="23">
-   <properties>
-    <property name="type" value="block"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="161" name="utiltileset" tilewidth="16" tileheight="16">
-  <image source="../utiltileset.png" width="64" height="16"/>
- </tileset>
+ <tileset firstgid="1" source="Main.tsx"/>
+ <tileset firstgid="161" source="utiltileset.tsx"/>
  <layer name="Tile Layer 3" width="20" height="10">
   <data encoding="base64" compression="zlib">
    eJxjYKAfUAVidShbHU3OmYHhABA7kGomLn1OENxAqnm49JFiXgmVzCtBwpSah2wONc0rQRMHxkWDMxb1uMRJARJQTE8AAM2WE2g=

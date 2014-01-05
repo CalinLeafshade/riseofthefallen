@@ -15,6 +15,7 @@ return {
     {
       name = "Main",
       firstgid = 1,
+      filename = "Main.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
@@ -28,6 +29,12 @@ return {
           id = 23,
           properties = {
             ["type"] = "block"
+          }
+        },
+        {
+          id = 144,
+          properties = {
+            ["animation"] = "3"
           }
         }
       }

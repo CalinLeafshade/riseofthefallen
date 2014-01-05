@@ -5,17 +5,8 @@
   <property name="cellY" value="15"/>
   <property name="name" value="Test Map"/>
  </properties>
- <tileset firstgid="1" name="Main" tilewidth="16" tileheight="16">
-  <image source="../tileset.png" width="160" height="256"/>
-  <tile id="23">
-   <properties>
-    <property name="type" value="block"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="161" name="utiltileset" tilewidth="16" tileheight="16">
-  <image source="../utiltileset.png" width="64" height="16"/>
- </tileset>
+ <tileset firstgid="1" source="Main.tsx"/>
+ <tileset firstgid="161" source="utiltileset.tsx"/>
  <layer name="Tile Layer 3" width="20" height="30">
   <data encoding="base64" compression="zlib">
    eJxjYBiaQB0PHjVv1LyRZB4+vaSaR6pZQx2T639SAT3SC6WAjYGhgVrmsTHQxH1UNQ9mJsjflJqjTIBPLXMHIxgKbhwoAABl2xwt
@@ -31,5 +22,7 @@
    eJztlMEKACAIQ/3/v6h+tEtdAm1bQRENPDlfiGYys7Q5Rik1FuQ8/yy/wov6epHHvvN5OA/df4bHSP2PL0rpvwR1LK8EHvVeKvucWyB+hMf4T/N67yt31vPv5im75s0XkXL/buDdEhWALYBX
   </data>
  </layer>
- <objectgroup name="objectLayer" width="20" height="30"/>
+ <objectgroup name="objectLayer" width="20" height="30">
+  <object name="Cultist" type="Enemy" x="240" y="240" width="16" height="16"/>
+ </objectgroup>
 </map>

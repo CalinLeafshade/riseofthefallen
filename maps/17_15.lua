@@ -15,11 +15,12 @@ return {
     {
       name = "Main",
       firstgid = 1,
+      filename = "Main.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      image = "../tileset.png",
+      image = "../gfx/tileset.png",
       imagewidth = 160,
       imageheight = 256,
       properties = {},
@@ -29,18 +30,25 @@ return {
           properties = {
             ["type"] = "block"
           }
+        },
+        {
+          id = 144,
+          properties = {
+            ["animation"] = "3"
+          }
         }
       }
     },
     {
       name = "utiltileset",
       firstgid = 161,
+      filename = "utiltileset.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      image = "../utiltileset.png",
-      imagewidth = 64,
+      image = "../gfx/utiltileset.png",
+      imagewidth = 80,
       imageheight = 16,
       properties = {},
       tiles = {}
@@ -185,7 +193,19 @@ return {
       visible = true,
       opacity = 1,
       properties = {},
-      objects = {}
+      objects = {
+        {
+          name = "Cultist",
+          type = "Enemy",
+          shape = "rectangle",
+          x = 240,
+          y = 240,
+          width = 16,
+          height = 16,
+          visible = true,
+          properties = {}
+        }
+      }
     }
   }
 }
