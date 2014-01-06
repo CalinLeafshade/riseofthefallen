@@ -9,7 +9,7 @@ Logger =
 function Logger:update(dt)
 	local time = love.timer.getTime()
 	for i,v in pairs(self.messages) do
-		if v.time - time > 5 then
+		if time - v.time > 5 then
 			self.messages[i] = nil
 			self.dirty = true
 		end
