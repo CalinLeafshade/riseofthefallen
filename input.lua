@@ -7,10 +7,13 @@ Input =
 		left = "left",
 		right = "right",
 		down = "down",
+		up = "up",
 		jump = "z",
 		attack = "x",
 		use = "up",
-		map = "m"
+		map = "m",
+		pause = "escape",
+		select = "return"
 	},
 	buttons = 
 	{

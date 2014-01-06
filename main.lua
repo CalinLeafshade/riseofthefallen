@@ -17,6 +17,8 @@ require('gui')
 require('statemanager')
 require('mainstate')
 require('mapstate')
+require('pausemenu')
+
 
 local currentMap
 local mainCanvas

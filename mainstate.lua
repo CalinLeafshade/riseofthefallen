@@ -21,6 +21,9 @@ function MainState:update(dt, onTop)
 	if Input:isNew("use") then
 		player:interact()
 	end
+	if Input:isNew("pause") then
+		stateManager:push(PauseState)
+	end
 	if Input:isNew("attack") then
 		player:attack()
 	end
@@ -29,11 +32,11 @@ function MainState:update(dt, onTop)
 	end
 	world:update(dt)
 	savestate:update(dt)
-	GUI:update(dt)
+	HealthGUI:update(dt)
 end
 
 function MainState:draw(onTop)
 	world:draw()
 	love.graphics.setColor(255,255,255)
-	GUI:draw()
+	HealthGUI:draw()
 end

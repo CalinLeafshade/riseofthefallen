@@ -1,5 +1,5 @@
 
-GUI = 
+HealthGUI = 
 {
 	picker = love.graphics.newImage("gfx/gui/gui_spellPicker.png"),	
 	cap = love.graphics.newImage("gfx/gui/gui_barCap.png"),
@@ -11,18 +11,18 @@ GUI =
 	}
 }
 
-for i,v in ipairs(GUI.bars) do
+for i,v in ipairs(HealthGUI.bars) do
 	v:setFilter("linear","linear")
 end
 
-function GUI:update(dt)
+function HealthGUI:update(dt)
 	self.hp = self.hp or 0
 	self.mana = self.mana or 0
 	self.hp = lerp(self.hp, player.health, dt * 2)
 	self.mana = lerp(self.mana, player.mana, dt * 2)
 end
 
-function GUI:draw()
+function HealthGUI:draw()
 	local function drawBar(t,x,y,value,maxValue,width)
 		love.graphics.draw(self.cap,x,y)
 		love.graphics.draw(self.cap,x + width,y)
