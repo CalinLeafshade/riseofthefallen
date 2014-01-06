@@ -1,4 +1,7 @@
 
+math.randomseed(os.time())
+math.random() math.random() math.random()
+
 local lg = love.graphics
 local abs = math.abs
 --util
