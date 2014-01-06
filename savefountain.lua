@@ -11,5 +11,5 @@ end
 function SaveFountain:draw() end -- dont draw anything yet
 	
 function SaveFountain:interact()
-	savestate:save(1)
+	stateManager:push(SavingState)
 end

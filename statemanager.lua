@@ -39,6 +39,10 @@ function StateManager:update(dt)
 	end
 end
 
+function StateManager:clear()
+	self.stack = {}
+end
+
 function StateManager:draw()
 	local toDraw = {}
 	for i,v in ipairs(self.stack) do

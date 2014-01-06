@@ -18,6 +18,7 @@ require('statemanager')
 require('mainstate')
 require('mapstate')
 require('pausemenu')
+require('savingstate')
 
 
 local currentMap
@@ -50,6 +51,7 @@ end
 
 function love.draw()
 	love.graphics.setCanvas(mainCanvas)
+	love.graphics.clear()
 	stateManager:draw()
 	love.graphics.setColor(255,255,255)
 	love.graphics.setCanvas()
