@@ -35,6 +35,7 @@ local states =
 		canAttack = true,
 		set = function(self)
 			self.animation = self.animations.walk
+			self.animation:reset()
 		end,
 		update = function(self,dt)
 			self.animation:update(dt * clamp((math.abs(self.vx * 4) / self.maxLateralSpeed),0,1))
@@ -81,10 +82,12 @@ local states =
 		set = function(self)
 			if self.onGround then
 				self.animation = self.animations["attackGround"]
+				self.animation:reset()
 				self.vx = 0
 				self.ax = 0
 			else
 				self.animation = self.animations["attackAir"]
+				self.animation:reset()
 			end
 		end,
 		update = function(self,dt)
@@ -137,6 +140,21 @@ function Player:initialize(x,y,props)
 	self.states = states
 	self.friction = true
 	self:setState("idle")
+	self.items = {}
+end
+
+function Player:pickUp(item)
+	self.items[item] = (self.items[item] or 0) + 1
+	display(item.name)
+	log(nil, "Picked up " .. item.name)
+end
+
+function Player:restoreHealth(val)
+	self.health = math.min(self.health + val, self.maxHealth)
+end
+
+function Player:restoreMana(val)
+	self.mana = math.min(self.mana + val, self.maxMana)
 end
 
 function Player:jump()

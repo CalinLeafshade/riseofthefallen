@@ -1,4 +1,6 @@
 
+io.stdout:setvbuf("no") -- for debug messages
+
 Class = require('middleclass')
 
 Scale = 3
@@ -19,6 +21,7 @@ require('mainstate')
 require('mapstate')
 require('pausemenu')
 require('savingstate')
+require('item')
 
 
 local currentMap

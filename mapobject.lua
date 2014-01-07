@@ -151,13 +151,6 @@ function MapObject:remove()
 end
 
 function MapObject:die()
-	local x1,y1,x2,y2 = self:bbox()
-	local p = math.abs((x2 - x1) * (y2 - y1))
-	local cx,cy = self:getCenter()
-	local w,h = self:getSize()
-	for i=1,p / 10 do
-		Smoke(cx + math.random(-w/2,w/2) * (math.random() * math.random()),cy + math.random(-h/ 2,h/2) * (math.random() * math.random()))
-	end
 	self:remove()
 end
 

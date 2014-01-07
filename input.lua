@@ -28,10 +28,10 @@ Input =
 
 function Input:isDown(k)
 	local val = false
-	if device == "keys" or "both" and self.keys[k] then
+	if self.device == "keys" or self.device == "both" and self.keys[k] then
 		val = love.keyboard.isDown(self.keys[k])
 	end
-	if device == "joypad" or "both" and not val then
+	if self.device == "joypad" or self.device == "both" and not val then
 		local joypad = love.joystick.getJoysticks()[1]
 		if joypad then
 			if k == "left" then

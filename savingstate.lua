@@ -10,16 +10,22 @@ local dY = math.sin(45) * l
 local cX = dX + (l / 2)
 local cY = dY
 local verts = {
-      0,             dY
-    , dX,            0
-    , dX + l,        0
+      0,           dY
+    , dX,          0
+    , dX + l,      0
     , dX + l + dX, dY
     , dX + l,      dY + dY
-    , dX,            dY + dY
+    , dX,		   dY + dY
   }
 
 function SavingState:focus()
+	player:restoreHealth(math.huge)
+	player:restoreMana(math.huge)
 	self.progress = 0
+end
+
+function SavingState:blur( ... )
+	display("Game Saved")
 end
 
 function SavingState:update(dt)

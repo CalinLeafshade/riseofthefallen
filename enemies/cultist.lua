@@ -1,8 +1,6 @@
 
 Cultist = Class("Cultist", Enemy)
 
-
-
 local states = 
 {
 	walk = 

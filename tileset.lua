@@ -17,11 +17,10 @@ function Tileset:initialize(image, tileWidth, tileHeight)
 			i = i + 1
 		end
 	end
+	self.animations = {}
 end
 
 function Tileset:processTiles(tiles)
-	self.animations = self.animations or {}
-	print(DataDumper(tiles))
 	for i,v in ipairs(tiles) do
 		if v.properties.animation then
 			self.animations[v.id + 1] = tonumber(v.properties.animation)
