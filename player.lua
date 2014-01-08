@@ -10,8 +10,15 @@ local animations =
 	hurt = Animation("gfx/player/playerHurt.png",1),
 	jump = Animation("gfx/player/playerJump.png",1),
 	fall = Animation("gfx/player/playerFall.png",1),
-	attackGround = Animation("gfx/player/playerAttack.png",5, {speed = 0.07}),
-	attackAir = Animation("gfx/player/playerAttackAir.png",4, {speed = 0.07})
+	attack = 
+	{
+		fists = 
+		{
+			ground = Animation("gfx/player/playerAttackFist.png",5, {speed = 0.07}),
+			air = Animation("gfx/player/playerAttackFist.png",5, {speed = 0.07}),
+		}
+	}
+
 }
 
 local states = 
@@ -79,14 +86,16 @@ local states =
 	},
 	attack = 
 	{
-		set = function(self)
+		set = function(self, weapon)
 			if self.onGround then
-				self.animation = self.animations["attackGround"]
+				self.animation = self.animations.attack[weapon.animation].ground
+				self.attachment = weapon.attachment and WeaponAttachments[weapon.attachment].ground
 				self.animation:reset()
 				self.vx = 0
 				self.ax = 0
 			else
-				self.animation = self.animations["attackAir"]
+				self.animation = self.animations.attack[weapon.animation].air
+				self.attachment = weapon.attachment and WeaponAttachments[weapon.attachment].air
 				self.animation:reset()
 			end
 		end,
@@ -96,13 +105,18 @@ local states =
 				self.ax = 0
 			end
 			local s = self.animation:update(dt)
+			if self.attachment then
+				self.attachment.frame = self.animation.frame
+			end
 			if s == "complete" then
 				self:setState("idle")
 			elseif s == "frame" then
 				
 			end
 		end,
-		leave = function() end
+		leave = function(self)
+			self.attachment = nil
+		end
 	},
 	hurt = 
 	{
@@ -134,13 +148,16 @@ function Player:initialize(x,y,props)
 	self.health = 50
 	self.mana = 50
 	self.maxMana = 100
-	self.power = 10
-	self.range = 32
 	self.animations = animations
 	self.states = states
 	self.friction = true
+	self.equipped = { weapon = Items["Short Sword"]}
 	self:setState("idle")
 	self.items = {}
+end
+
+function Player:getWeapon()
+	return self.equipped.weapon or Items.Fists
 end
 
 function Player:pickUp(item)
@@ -191,12 +208,13 @@ function Player:drop()
 	self.onGround = false
 	self:setState("fall")
 end
-
+ 
 function Player:attack()
 	if not self:getState().canAttack then return end
-	self:setState("attack")
+	local w = self:getWeapon()
+	self:setState("attack",w)
 	local tx,ty = self:getCenter()
-	local range = self.dir == "left" and -self.range or self.range
+	local range = self.dir == "left" and -w.range or w.range
 	local o = {}
 	for x = tx,tx + range, range < 0 and -1 or 1 do
 		local oo = self.map:getObjectsAt(x,ty)
@@ -208,7 +226,7 @@ function Player:attack()
 	for i,v in pairs(o) do
 		print(v, v.solid)
 		if v.solid and not v.static then
-			v:hurt(self.power, v.x - self.x, v.y - self.y)
+			v:hurt(w.power, v.x - self.x, v.y - self.y)
 		end
 	end
 end
@@ -218,7 +236,6 @@ function Player:leaveEdge(edge)
 	print(edge,cx,cy)
 	world:changeMap(cx,cy)
 end
-
 
 
 function Player:getWidth() return 14 end

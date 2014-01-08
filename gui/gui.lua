@@ -33,6 +33,9 @@ function GUI:receiveInput(input)
 end
 
 function GUI:draw()
+	love.graphics.setColor(0,0,0,128)
+	patch:draw(self.x + 2,self.y + 2,self.width, self.height)
+	love.graphics.setColor(255,255,255)
 	patch:draw(self.x,self.y,self.width, self.height)
 	local x = self.x + self.width / 2
 	local y = self.y + 10

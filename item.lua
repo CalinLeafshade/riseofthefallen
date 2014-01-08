@@ -17,7 +17,7 @@ function MapItem:collide(with)
 	end
 end
 
-function MapItem:getWidth( ... )
+function MapItem:getWidth()
 	return 16
 end
 
@@ -34,11 +34,13 @@ Items = {}
 -- this is a definition class and does not refer to actual items. item storage is done in the player class
 Item = Class("Item")
 
-function Item:initialize(name, tileID, equipSlots)
+function Item:initialize(name, tileID, def)
 	self.name = name
 	Items[name] = self
 	self.tileID = tileID or 1
-	self.canEquip = equipSlots
+	for i,v in pairs(def or {}) do
+		self[i] = v
+	end
 end
 
 function Item:spawn(map,cx,cy)

@@ -109,18 +109,26 @@ function MapObject:bounds()
 end
 
 function MapObject:draw()
+	local floor = math.floor
+	local cx, cy = self:getCenter()
+	cx,cy = floor(cx), floor(cy)
+	local y = floor(self:bottom())
 	if self.sprite then
 		local c = self.color or {255,255,255}
 		c[4] = self.alpha or 255
 		love.graphics.setColor(c)
-		love.graphics.draw(self.sprite,math.floor(self.x + self:getWidth() / 2) , math.floor(self.y + self:getHeight() / 2), self.rotation or 0, self.scale or 1,self.scale or 1,self:getWidth() / 2, self:getHeight() / 2)
+		love.graphics.draw(self.sprite,cx, cy, self.rotation or 0, self.scale or 1,self.scale or 1,self:getWidth() / 2, self:getHeight() / 2)
 	elseif self.animation then
 		if self:isInvincible() then
 			love.graphics.setColor(255,255,255,math.sin(love.timer.getTime() * 10) * 64 + 128)
 		else
 			love.graphics.setColor(255,255,255)
 		end
-		self.animation:draw(math.floor(self.x + self:getWidth() / 2), math.floor(self.y + self:getHeight()))
+		self.animation:draw(cx, y)
+		if self.attachment then
+			self.attachment.flipped = self.dir == "left"
+			self.attachment:draw(cx, y)
+		end
 		love.graphics.setColor(255,255,255)
 	else
 		love.graphics.rectangle("line", self:bounds())

@@ -67,7 +67,7 @@ function Thingling:initialize(x,y,props)
 		attack = Animation("gfx/enemies/thinglingAttack.png", 3, {offset = "bottom middle"}),
 		hurt = Animation("gfx/enemies/thinglingHurt.png", 1, {offset = "bottom middle"})
 	}
-	self.drops = { {20, "Potion"}, {20, "Ether"} }
+	self.drops = { {20, "Potion"}, {20, "Ether"},{50, "Short Sword"}}
 	self.friction = false
 	self.states = states
 end

@@ -16,10 +16,10 @@ local function makePotion(name, tileid, strength, useFunc)
 end
 
 makePotion("Potion", 1, 20, healFunc)
-makePotion("High Potion", 1, 40, healFunc)
-makePotion("Super Potion", 1, 100, healFunc)
+makePotion("High Potion", 3, 40, healFunc)
+makePotion("Super Potion", 5, 100, healFunc)
 
-makePotion("Ether", 1, 20, manaFunc)
-makePotion("Mega Ether", 1, 50, manaFunc)
+makePotion("Ether", 2, 20, manaFunc)
+makePotion("Mega Ether", 4, 50, manaFunc)
 
 
