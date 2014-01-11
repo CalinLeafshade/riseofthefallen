@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="20" tilewidth="16" tileheight="16" backgroundcolor="#140c1c">
+ <properties>
+  <property name="cellX" value="19"/>
+  <property name="cellY" value="17"/>
+  <property name="name" value="Test Map"/>
+ </properties>
+ <tileset firstgid="1" source="Main.tsx"/>
+ <tileset firstgid="181" source="utiltileset.tsx"/>
+ <layer name="Tile Layer 3" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgYoD5A9pIDFmDBpOpBBnOxYHxy+NSDwHwGhgPoGKZuPpGYkHlImGTz5kLcgxXPQqhxwIfRwvYADDPgAEA9DfgwmnkE45UU/wLNSQDaoQAUXwCkHyzAYjSJ/iVoHkwNTB4UrsiYUvPwBM2wNA9f3iPHPHx5ikz34Uw7xJhHLQAAJXnCGA==
+  </data>
+ </layer>
+ <layer name="Tile Layer 1" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJy1k9ENgCAMRDuKoziKoziGAT5IXMRRHMUaJRC8QkG9pDGB9nnVlugpS7QZojENPptAqkpc78HZ8AcPea/5L/H4uQs14f7xLsfRynO3b8ljK6+k5Yr5Q97IsfXw+P7svSqJx7WzuTkm5vo160/LM2BO0HxoeCvF/5rO3xt/yCfy5zK+jbkqXu4PfZfAO/ss5Qv7JfJ6/Dlh79EuavxpFXqv+WvVV/4Qj2fBpzvTE2GeDpLHcYE=
+  </data>
+ </layer>
+ <layer name="Collisions" width="20" height="20" opacity="0.71">
+  <data encoding="base64" compression="zlib">
+   eJzVk0EKACAIBP3/f/R9XTqJtipatOBJGSYlJiK+UDo/8axM8VBkF+IR6GX9pnjRd3uz3v6lmVfx03fq8PM8UT/L034nngTmX/pFeNVY/zFyX5QuP4/XVQvfipMd
+  </data>
+ </layer>
+ <objectgroup name="objectLayer" width="20" height="20"/>
+ <layer name="Tile Layer over" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFQwnUQTGRahOobPegNg8ZrCaAcanFBdYTwLjUUts8XOYSkh81jzTzSMVDzTxqAQDhH1TE
+  </data>
+ </layer>
+</map>

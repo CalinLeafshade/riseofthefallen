@@ -6,7 +6,7 @@
   <property name="name" value="Test Map"/>
  </properties>
  <tileset firstgid="1" source="Main.tsx"/>
- <tileset firstgid="161" source="utiltileset.tsx"/>
+ <tileset firstgid="181" source="utiltileset.tsx"/>
  <layer name="Tile Layer 3" width="20" height="10">
   <data encoding="base64" compression="zlib">
    eJxjYKAfUAVidShbHU3OmYHhABA7kGomLn1OENxAqnm49JFiXgmVzCtBwpSah2wONc0rQRMHxkWDMxb1uMRJARJQTE8AAM2WE2g=
@@ -14,12 +14,12 @@
  </layer>
  <layer name="Tile Layer 1" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYCAeZDAwLJBgYHDAhoFyB0jVJwkUx6UHKK+AR+4BCc6mqnm2UAwzj1R/keM+XCAZiFOoaF4uEOdR0bxyIK4gYJ4EFBvjYCPjRghuwCYnT6rjiAQADLoUBQ==
+   eJxjYCAeZDAwLJBgYHDAhoFyB0jVJwkUx6UHKK+AR+4BCc6mqnm2UAwzj1R/4QJAPQogvaToSQbiFFItwgNygTiPiuaVA3EFATUSUGyMg42MGyG4AZucPJSmNgAA/qMTzg==
   </data>
  </layer>
- <layer name="Collisions" width="20" height="10" visible="0" opacity="0.37">
+ <layer name="Collisions" width="20" height="10" opacity="0.37">
   <data encoding="base64" compression="zlib">
-   eJxbyMDAsHAAMS5Arj5am7cIimnlPmqBoWLeYMcA1n5CrQ==
+   eJzbysDAsHUAMS5Arj5am7cNimnlvpEGBjLtEYMBB3BGtw==
   </data>
  </layer>
  <objectgroup name="objectLayer" width="20" height="10">

@@ -6,7 +6,7 @@
   <property name="name" value="Test Map"/>
  </properties>
  <tileset firstgid="1" source="Main.tsx"/>
- <tileset firstgid="161" source="utiltileset.tsx"/>
+ <tileset firstgid="181" source="utiltileset.tsx"/>
  <layer name="Tile Layer 3" width="20" height="10">
   <data encoding="base64" compression="zlib">
    eJyrYWBgqBnEGATUScT4ALpaXxKwPxY+NvPQ1aHr8cMiDhPDZp4fATPRzUdWiw6I9SsugC1+iDGLGnGOyw20xADBKEAP
@@ -19,7 +19,7 @@
  </layer>
  <layer name="Collisions" width="20" height="10" opacity="0.37">
   <data encoding="base64" compression="zlib">
-   eJxbyMDAsJDKmFqA2u6ihtuo6T96mIfu/yVEmLEYiz5cYYhu5iIoRjcLl1uxyZEbh7RILwDqLjvM
+   eJzbysDAsJXKmFqA2u6ihtuo6T96mIfu/x1EmLEdiz5cYYhu5jYoRjcLl1uxyZEbh7RILwAzokM4
   </data>
  </layer>
  <objectgroup name="objectLayer" width="20" height="10"/>
