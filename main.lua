@@ -34,12 +34,13 @@ function love.load()
 	stateManager = StateManager()
 	stateManager:push(MainState)
 	world = World("maps")
-	savestate = SaveState(160,50,16,16)
+	savestate = SaveState(160,50,18,17)
 end
 
 function love.update(dt)
 	stateManager:update(dt)
 	Input:update()
+	log("FPS", love.timer.getFPS())
 	Logger:update(dt)
 end
 

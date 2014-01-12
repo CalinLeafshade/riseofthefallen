@@ -6,6 +6,7 @@ local font = love.graphics.newFont("fonts/tiny.ttf", 16)
 local lg = love.graphics
 
 function Bubble:initialize(x,y,text,color)
+	MapObject.initialize(self,x,y)
 	color = color or {255,255,255}
 	text = text or ""
 	self.x = x
@@ -29,6 +30,7 @@ end
 function Bubble:draw()
 	lg.setFont(font)
 	printfOutlined(self.text, round(math.sin(love.timer.getTime() * 5) * 2 + self.x - 50), round(self.y), 100, "center", self.color)
+	love.graphics.setColor(255,255,255)
 end
 
 function Bubble:contains() return false end -- never hit

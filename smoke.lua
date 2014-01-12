@@ -17,6 +17,7 @@ function Smoke:initialize(x,y)
 	self.scale = math.random()
 	self.sprite = smokeSprite
 	self.gravity = false
+	self.overPlayer = true
 	player.map:attachObject(self) -- always attack to players map
 end
 

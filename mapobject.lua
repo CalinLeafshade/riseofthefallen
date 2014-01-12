@@ -1,11 +1,15 @@
 
 require('animation')
 
+local createdObjects = 0
+
 MapObject = Class("MapObject")
 
 function MapObject:initialize(x,y,props)
 	x = x or 0
 	y = y or 0
+	self.id = createdObjects
+	createdObjects = createdObjects + 1
 	self.props = props or {}
 	self.x = x
 	self.y = y
@@ -287,6 +291,7 @@ function MapObject:move(dt)
 			local trans = (clamp(self.x - tx * 16,0,15)) % 16
 			local fY = y * self.map.tileHeight - self:getHeight() + trans
 			if fY < futureY then
+				col = true
 				self.onGround = true
 				futureY = fY
 			end
@@ -294,6 +299,7 @@ function MapObject:move(dt)
 			local trans = (15 - clamp((self.x + self:getWidth()) - tx * 16,0,15)) % 16
 			local fY = y * self.map.tileHeight - self:getHeight() + trans
 			if fY < futureY then
+				col = true
 				self.onGround = true
 				futureY = fY
 			end
@@ -319,9 +325,11 @@ function MapObject:move(dt)
 		if t == "solid" or (t == "up" and vy > 0) and self:bottom() <= ty * 16 then 
 			self.vy = 0
 			if vy > 0 then -- falling
+				col = true
 				self.onGround = true
 				futureY = ty * self.map.tileHeight - self:getHeight()
 			else -- rising
+				self:collide("solid")
 				futureY = ty * self.map.tileHeight + self.map.tileHeight
 			end
 		elseif t == "leftslope" then
@@ -331,6 +339,7 @@ function MapObject:move(dt)
 				self.vy = 0
 				self.onGround = true
 				futureY = fY
+				col = true
 			end
 		elseif t == "rightslope" then
 			local trans = (16 - clamp((self.x + self:getWidth()) - x * 16,0,16)) % 16
@@ -339,12 +348,15 @@ function MapObject:move(dt)
 				self.vy = 0
 				self.onGround = true
 				futureY = fY
+				col = true
 			end
 		end
 	end
 			
 	self.y = futureY
 			
-	
+	if col then -- we collided
+		self:collide("solid")
+	end
 	
 end

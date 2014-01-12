@@ -12,9 +12,9 @@
    eJxjYBgYoD5A9pIDFmDBpOpBBnOxYHxy+NSDwHwGhgPoGKZuPpGYkHlImGTz5kLcgxXPQqhxwIfRwvYADDPgAEA9DfgwmnkE45UU/wLNSQDaoQAUXwCkHyzAYjSJ/iVoHkwNTB4UrsiYUvPwBM2wNA9f3iPHPHx5ikz34Uw7xJhHLQAAJXnCGA==
   </data>
  </layer>
- <layer name="Tile Layer 1" width="20" height="20">
+ <layer name="decoration" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJy1k9ENgCAMRDuKoziKoziGAT5IXMRRHMUaJRC8QkG9pDGB9nnVlugpS7QZojENPptAqkpc78HZ8AcPea/5L/H4uQs14f7xLsfRynO3b8ljK6+k5Yr5Q97IsfXw+P7svSqJx7WzuTkm5vo160/LM2BO0HxoeCvF/5rO3xt/yCfy5zK+jbkqXu4PfZfAO/ss5Qv7JfJ6/Dlh79EuavxpFXqv+WvVV/4Qj2fBpzvTE2GeDpLHcYE=
+   eJxjYBgFIwnMgOAGKprnAMQHqGXeKBgFo2DoAAD/4QPh
   </data>
  </layer>
  <layer name="Collisions" width="20" height="20" opacity="0.71">
@@ -22,10 +22,12 @@
    eJzVk0EKACAIBP3/f/R9XTqJtipatOBJGSYlJiK+UDo/8axM8VBkF+IR6GX9pnjRd3uz3v6lmVfx03fq8PM8UT/L034nngTmX/pFeNVY/zFyX5QuP4/XVQvfipMd
   </data>
  </layer>
- <objectgroup name="objectLayer" width="20" height="20"/>
- <layer name="Tile Layer over" width="20" height="20">
+ <layer name="Tile Layer 1" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFQwnUQTGRahOobPegNg8ZrCaAcanFBdYTwLjUUts8XOYSkh81jzTzSMVDzTxqAQDhH1TE
+   eJy1k+ENhCAMhd8f97hRbhQnMTcH8sOERRzFUeydEEl9SMWzyYtJWz4fUDoAndIIzA5455Jcr/uskvUTVEju9QSPea/5P+PJd9E1VT/8y4uu8nz0zWp5DFE1Xuztazyrv6d4Uv/uvZknaz9uy/+U7jNIvoXnyJyw+bDwAvZ7zefvjj/mk/nT5zLuvSae9sfOJfHCttdif+F9FXkt/nzh3bO3aPFnjbT3mr+r8S9/jCezMOWz0aI0Tyub8XSu
   </data>
  </layer>
+ <objectgroup name="objectLayer" width="20" height="20">
+  <object type="water" x="32" y="272" width="256" height="32"/>
+ </objectgroup>
 </map>

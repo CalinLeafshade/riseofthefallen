@@ -1,6 +1,7 @@
 local bit32 = require('bit')
 require('tileset')
 require('savefountain')
+require('watersurface')
 
 Map = Class('map')
 
@@ -35,21 +36,22 @@ function Map:initialize(def)
 			y = tonumber(def.properties.cellY),
 		}
 	for i,v in ipairs(def.tilesets) do -- find util tileset starting
-		if v.name == "utiltileset" then
+		if v.name:lower() == "utiltileset" then
 			self.utiloffset = v.firstgid - 1
 		else
 			tileset:processTiles(v.tiles or {})
 		end
 	end
 	for i,v in ipairs(def.layers) do
-		if v.type == "objectgroup" then
+		if v.type:lower() == "objectgroup" then
 			self:processObjects(v)		
-		elseif v.name == "Collisions" then
+		elseif v.name:lower() == "collisions" then
 			self:processCollisionLayer(v)
 		else
 			self:processLayer(v)
 		end
 	end
+
 end
 
 Map.objectProcessors = 
@@ -65,6 +67,10 @@ Map.objectProcessors =
 	save = function(map,obj)
 		map.saveRoom = true
 		table.insert(map.staticObjects, SaveFountain(obj.x,obj.y))
+	end,
+	water = function(map,obj)
+		local o = Water(obj.x,obj.y,obj.width,obj.height)
+		table.insert(map.staticObjects, o)
 	end
 	
 }
@@ -131,7 +137,7 @@ end
 
 function Map:processLayer(layer)
 	local l = {}
-	l.name = layer.name
+	l.name = layer.name:lower()
 	l.opacity = layer.opacity
 	l.width = layer.width
 	l.height = layer.height
@@ -147,6 +153,14 @@ function Map:processLayer(layer)
 	end
 	self.layers[l.name] = l
 	table.insert(self.layers, l)
+end
+
+function Map:sane( x,y )
+	return x >= 0 and x < self.width and y >= 0 and y < self.height
+end
+
+function Map:isWater(x,y)
+	return self.layers["water"] and self.layers["water"].data[x] and self.layers["water"].data[x][y] > 0
 end
 
 function Map:processCollisionLayer(layer)
@@ -226,10 +240,17 @@ function Map:tileType(x,y)
 end
 
 function Map:drawObjects()
+	local toDraw = {}
 	for i,v in pairs(self.objects) do
+		table.insert(toDraw,v)
+	end
+	table.sort(toDraw, function(a,b)
+			return a.id < b.id
+		end)
+	for i,v in ripairs(toDraw) do
 		v:draw()
 	end	
-	player:draw() -- HACK Draw the player again so he's on top.
+
 end
 
 function Map:draw(lowerX, lowerY, upperX, upperY)
@@ -241,6 +262,7 @@ function Map:draw(lowerX, lowerY, upperX, upperY)
 	love.graphics.clear()
 	for _,layer in ipairs(self.layers) do -- TODO should probs do this in a sprite batch
 		if layer.type == "tilelayer" then
+			love.graphics.setColor(255,255,255)
 			for x=lowerX, upperX do
 				for y=lowerY, upperY do
 					local tile = layer.data[x][y]

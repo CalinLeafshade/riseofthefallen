@@ -30,10 +30,11 @@ local states =
 			self.animation = self.animations.idle
 			self.animation:reset()
 		end,
-		update = function(self)
+		update = function(self,dt)
 			if math.abs(self.vx) > 0 and self.onGround then
 				self:setState("walk")
-			end				
+			end	
+			self:handleWet(dt, self.dir == "right" and -5 or 5, 10)
 		end,
 		leave = function() end
 	},
@@ -53,7 +54,7 @@ local states =
 			if self.vy > 150 then
 				self:setState("fall")
 			end
-			
+			self:handleWet(dt, self.dir == "right" and -6 or 6, 10)
 		end,
 		leave = function() end
 	},
@@ -154,6 +155,20 @@ function Player:initialize(x,y,props)
 	self.equipped = { weapon = Items["Short Sword"]}
 	self:setState("idle")
 	self.items = {}
+end
+
+function Player:handleWet( dt,x,y )
+	if self.wet then
+		local r = round(self.wet)
+		self.wet = self.wet - dt
+		if r ~= round(self.wet) then
+			local cx,cy = self:getCenter()
+			self.map:attachObject(Drop(cx + x, cy + y,0,0))
+		end			
+		if self.wet < 0 then
+			self.wet = false
+		end
+	end
 end
 
 function Player:getWeapon()

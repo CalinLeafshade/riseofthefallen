@@ -56,6 +56,7 @@ function World:changeMap(x,y)
 		self.camera:setBounds(0,0,newMap.width * 16, newMap.height * 16)
 		self.camera:lookAt(player:getCenter())
 		newMap:enter()
+		self.loadedNewMap = true
 	end
 end
 
@@ -154,6 +155,10 @@ function World:drawMiniMap()
 end
 
 function World:update(dt)
+	if self.loadedNewMap then
+		self.loadedNewMap = false
+		return -- dont update if we've just loaded a new map. dt might be big due to loading.
+	end
 	self.camera:lookAt(player:getCenter())
 	if self.currentMap then
 		self.currentMap:update(dt)
@@ -171,6 +176,7 @@ function World:draw()
 		self.currentMap:draw()
 		self.camera:detach()
 		love.graphics.setCanvas(oldCanvas)
+		love.graphics.setColor(255,255,255)
 		love.graphics.draw(self.canvas,0,0)
 	end
 end
