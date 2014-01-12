@@ -18,7 +18,7 @@ function MapObject:initialize(x,y,props)
 	self.ax = 0
 	self.ay = 0
 	self.maxLateralSpeed = 100
-	self.maxVerticalSpeed = 1000
+	self.maxVerticalSpeed = 700
 	self.gravity = true
 	self.dir = "right"
 	self.state = "idle"
@@ -179,10 +179,21 @@ function MapObject:update(dt)
 	elseif self.ax > 0 then
 		self.dir = "right"
 	end
-	self.vx = self.vx + self.ax
-	self.vy = self.vy + self.ay
-	self.vx = clamp(self.vx, -self.maxLateralSpeed, self.maxLateralSpeed)
-	self.vy = clamp(self.vy, -self.maxVerticalSpeed, self.maxVerticalSpeed)
+
+	local ax = self.ax
+	local ay = self.ay
+	local maxLSpeed = self.maxLateralSpeed
+	local maxVSpeed = self.maxVerticalSpeed
+	if self.inWater then
+		maxVSpeed = maxVSpeed / 2
+		maxLSpeed = maxLSpeed / 2
+		ax = ax / 2
+		ay = ay / 2
+	end
+	self.vx = self.vx + ax
+	self.vy = self.vy + ay
+	self.vx = clamp(self.vx, -maxLSpeed, maxLSpeed)
+	self.vy = clamp(self.vy, -maxVSpeed, maxVSpeed)
 	if self.animation then
 		self.animation.flipped = self.dir == "left"
 	end
@@ -260,6 +271,7 @@ function MapObject:move(dt)
 	
 	local vx,vy = self.vx,self.vy
 	if self.gravity then
+		local g = self.inWater and 200 or 1000
 		self.vy = self.vy + 1000 * dt
 	end
 	if vx == 0 and vy == 0 then return end

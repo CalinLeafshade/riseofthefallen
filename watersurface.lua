@@ -89,6 +89,7 @@ end
 function Water:update(dt)
 	local x,y = player:getCenter()
 	local b = self:inWater(x,y)
+	player.inWater = b
 	if b ~= self.playerInWater then
 		self.playerInWater = b
 		self:splash(x,y,player.vy * 0.01)
@@ -128,7 +129,7 @@ function Drop:initialize(x,y,vx,vy)
 	MapObject.initialize(self,x,y)
 	self.vx = vx
 	self.vy = vy
-	local r = math.random(20)
+	local r = math.random(20) - 10
 	self.color = {200 + r,220 + r,214 + r,math.random(100,150)}
 	self.lengthMod = 0.03
 	self.lifetime = 2
@@ -166,6 +167,6 @@ function Drop:draw( ... )
 	--self.color[4] = lerp(0,255,self.lifetime/0.2)
 	love.graphics.setColor(self.color)
 	love.graphics.setLineStyle("rough")
-	love.graphics.setLineWidth(3 - clamp(math.abs(self.vy * 0.01),1,2))
+	--love.graphics.setLineWidth(3 - clamp(math.abs(self.vy * 0.01),1,2))
 	love.graphics.line(self.x,self.y, self.x - clamp(self.vx * self.lengthMod, -2, 2), self.y - clamp(self.vy * self.lengthMod,-2,2))
 end
