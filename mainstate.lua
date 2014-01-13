@@ -21,8 +21,8 @@ function MainState:update(dt, onTop)
 		if Input:isNew("use") then
 			player:interact()
 		end
-		if Input:isNew("pause") then
-			stateManager:push(PauseState)
+		if Input:isNew("cancel") then
+			stateManager:push(MenuState)
 		end
 		if Input:isNew("attack") then
 			player:attack()

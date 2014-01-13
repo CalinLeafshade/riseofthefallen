@@ -10,7 +10,7 @@ function SaveState.static.loadFromSlot(slot)
 end
 
 function SaveState:initialize(startX, startY, startCellX, startCellY)
-	
+	self.time = 0
 	self.visited = {}
 	self.player = Player(startX, startY)
 	self.mapSize = {0,0,0,0}
@@ -33,6 +33,7 @@ end
 
 function SaveState:update(dt)
 	local x,y = player:getCell()
+	self.time = self.time + dt
 	self:setVisited(x,y)
 end
 

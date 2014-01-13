@@ -12,7 +12,7 @@ Input =
 		attack = "x",
 		use = "up",
 		map = "m",
-		pause = "escape",
+		cancel = "escape",
 		select = "return"
 	},
 	buttons = 

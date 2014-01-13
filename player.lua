@@ -152,9 +152,20 @@ function Player:initialize(x,y,props)
 	self.animations = animations
 	self.states = states
 	self.friction = true
-	self.equipped = { weapon = Items["Short Sword"]}
+	self.equipped = { 
+		weapon = Items["Short Sword"],
+		armor = Items["Leather Vest"],
+		acc1 = Items["Potion"],
+		acc2 = Items["High Potion"]
+
+	}
 	self:setState("idle")
 	self.items = {}
+	for i,v in ipairs(Items) do -- Debug code, add all items
+		if v.name ~= "Fists" then
+			self:pickUp(v)
+		end
+	end
 end
 
 function Player:handleWet( dt,x,y )
@@ -175,10 +186,25 @@ function Player:getWeapon()
 	return self.equipped.weapon or Items.Fists
 end
 
-function Player:pickUp(item)
+function Player:pickUp(item, suppress)
 	self.items[item] = (self.items[item] or 0) + 1
-	display(item.name)
+	if not suppress then
+		display(item.name)
+	end
 	log(nil, "Picked up " .. item.name)
+end
+
+function Player:equip(item, slot)
+	if not slot then
+		for i,v in pairs(item.canEquip) do
+			slot = i
+		end
+	end
+	local i = self.equipped[slot]
+	if i.name ~= "Fists" then
+		self:pickUp(i)
+	end
+	self.equipped[slot] = item
 end
 
 function Player:restoreHealth(val)

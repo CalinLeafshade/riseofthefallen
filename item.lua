@@ -26,8 +26,7 @@ function MapItem:getHeight()
 end
 
 function MapItem:draw()
-	love.graphics.setColor(255,255,255)
-	itemTileset:draw(self.item.tileID, round(self.x),round(self.y))
+	self.item:draw(round(self.x),round(self.y))
 end
 
 Items = {}
@@ -41,12 +40,18 @@ function Item:initialize(name, tileID, def)
 	for i,v in pairs(def or {}) do
 		self[i] = v
 	end
+	table.insert(Items, self)
 end
 
 function Item:spawn(map,cx,cy)
 	print("Spawning " .. self.name)
 	local px,py = cx - 8, cy - 8
 	map:attachObject(MapItem(self,px,py))
+end
+
+function Item:draw(x,y)
+	love.graphics.setColor(255,255,255)
+	itemTileset:draw(self.tileID, x,y)
 end
 
 function Item:isEquippable(slot)

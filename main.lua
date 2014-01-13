@@ -5,6 +5,8 @@ Class = require('middleclass')
 
 Scale = 3
 
+require('color')
+require('fonts')
 require('logger')
 require('util')
 require('input')
@@ -20,6 +22,7 @@ require('statemanager')
 require('mainstate')
 require('mapstate')
 require('pausemenu')
+require('menustate')
 require('savingstate')
 require('item')
 
