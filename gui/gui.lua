@@ -31,6 +31,7 @@ function GUI:addOption(o)
 end
 
 function GUI:receiveInput(input)
+	if #self.options == 0 then return end
 	if input == "down" then
 		self.selected = clamp(self.selected + 1,1,#self.options)
 		self.options[self.selected]:onFocus()
@@ -40,6 +41,14 @@ function GUI:receiveInput(input)
 	elseif self.options[self.selected] then
 		self.options[self.selected]:receiveInput(input)
 	end
+end
+
+function GUI:drawSelector(x,y)
+	love.graphics.draw(self.selector,x,y,0,1,1,self.selector:getWidth(), self.selector:getHeight() / 2)
+end
+
+function GUI:blur( ... )
+	-- body
 end
 
 function GUI:focus( ... )

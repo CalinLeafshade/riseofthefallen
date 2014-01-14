@@ -5,18 +5,37 @@ WeaponAttachments =
 	{
 		-- not sure if this is 100% necessary. Might depend on the animations.
 		ground = Animation("gfx/weapons/sword.png",5,{speed = 0.07}),
-		air = Animation("gfx/weapons/sword.png",5,{speed = 0.07})
-	}
+		air = Animation("gfx/weapons/sword.png",5,{speed = 0.07}),
+		hitPoints = {
+			{ { 37, 13  }, {59, 13} }, -- frame 1
+			--{ { 54, 13  } },
+		},
+	},
+	scythe = 
+	{
+		hitPoints = {
+			{ { 23, 3  } }, -- frame 1
+			{ { 37, 3  } },
+			{ { 47, 21 } },
+			{ { 45, 30 } },
+		},
+		ground = Animation("gfx/weapons/scythe.png",8,{speed = 0.07}),
+		air = Animation("gfx/weapons/scythe.png",8,{speed = 0.07})	
+	},	
+	dagger = 
+	{
+		ground = Animation("gfx/weapons/dagger.png",5,{speed = 0.07}),
+		air = Animation("gfx/weapons/dagger.png",5,{speed = 0.07})	
+	},
 }
 
 -- weapons
 
 Item("Fists",0, 
 	{
-		range = 16,
-		power = 1,
+		stats = { atk = 1 },
 		damageType = "normal",
-		speed = 1,
+		speed = 0.07,
 		animation = "fists",
 		attachment = nil,
 		canEquip = { weapon = true },
@@ -25,10 +44,9 @@ Item("Fists",0,
 
 Item("Short Sword",12,
 	{
-		range = 32,
-		power = 6,
+		stats = { atk = 6 },
 		damageType = "normal",
-		speed = 1,
+		speed = 0.06,
 		animation = "fists",
 		attachment = "sword",
 		canEquip = { weapon = true },
@@ -37,11 +55,11 @@ Item("Short Sword",12,
 
 Item("Long Sword",11, -- TODO
 	{
-		range = 32,
-		power = 6,
+		stats = { atk = 10 },
 		damageType = "normal",
-		speed = 1,
+		speed = 0.08,
 		canEquip = { weapon = true },
+		hang = 0.2,
 		animation = "fists",
 		attachment = "sword",
 		description = "TODO"
@@ -50,13 +68,13 @@ Item("Long Sword",11, -- TODO
 
 Item("Scythe", 10, -- TODO
 	{
-		range = 32,
-		power = 6,
+		stats = { atk = 14 },
 		damageType = "normal",
-		speed = 1,
+		speed = 0.07,
+		triggerFrame = 4,
 		canEquip = { weapon = true },
-		animation = "fists",
-		attachment = "sword",
+		animation = "swing",
+		attachment = "scythe",
 		description = "TODO"
 	}) 
 

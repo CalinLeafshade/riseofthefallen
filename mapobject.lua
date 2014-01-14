@@ -24,7 +24,6 @@ function MapObject:initialize(x,y,props)
 	self.state = "idle"
 	self.lastHurt = 1
 	self.hurtTime = 2
-	self.health = 20
 	self.solid = true
 	self.weaknesses = {}
 	self.states = {
@@ -36,9 +35,7 @@ function MapObject:initialize(x,y,props)
 		}
 end
 
-function MapObject:isInvincible()
-	return love.timer.getTime() - self.lastHurt < self.hurtTime 
-end
+
 
 function MapObject:getWidth()
 	if self.sprite then
@@ -117,17 +114,12 @@ function MapObject:draw()
 	local cx, cy = self:getCenter()
 	cx,cy = floor(cx), floor(cy)
 	local y = floor(self:bottom())
+	local c = self.color or {255,255,255}
+	c[4] = self.alpha or 255
+	love.graphics.setColor(c)
 	if self.sprite then
-		local c = self.color or {255,255,255}
-		c[4] = self.alpha or 255
-		love.graphics.setColor(c)
 		love.graphics.draw(self.sprite,cx, cy, self.rotation or 0, self.scale or 1,self.scale or 1,self:getWidth() / 2, self:getHeight() / 2)
 	elseif self.animation then
-		if self:isInvincible() then
-			love.graphics.setColor(255,255,255,math.sin(love.timer.getTime() * 10) * 64 + 128)
-		else
-			love.graphics.setColor(255,255,255)
-		end
 		self.animation:draw(cx, y)
 		if self.attachment then
 			self.attachment.flipped = self.dir == "left"
@@ -141,21 +133,6 @@ end
 
 function MapObject:collide(with)
 	
-end
-
-function MapObject:hurt(pwr,dx,dy, dmgType)
-	dmgType = dmgType or "normal"
-	local multiplier = self.weaknesses[dmgType] or 1
-	pwr = pwr * multiplier
-	local x = self:getCenter()
-	local y = self.y
-	Bubble(x,y - 15,pwr,{200,0,0})
-	self.health = self.health - pwr
-	self:setState("hurt",dx,dy,dmgType)
-	if self.health <= 0 then
-		self.health = 0
-		self:die()
-	end
 end
 
 function MapObject:remove()

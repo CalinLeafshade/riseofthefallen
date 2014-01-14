@@ -6,23 +6,37 @@ require('gui.guioptionnormal')
 MenuState = State("MenuState")
 MenuState.opaque = false
 
+local function makeEquipFilter(slot)
+	if slot then
+		return function (item)
+			return item.canEquip and item.canEquip[slot]
+		end
+	else
+		return function (item)
+			return item.canEquip
+		end
+	end
+end
+
 local lg = love.graphics
 
 local selectorGui = GUI(250,0,70,180)
 
 MenuState.stack = {selectorGui}
 
-local itemDescription = ""
-
-local screens = {
+local selectedItem
+local selectedSlot
+local screens
+screens = {
 	{
 		name = "Status",
 		guis = { GUI(0,0,250,180, {
 				draw = function(self)
 					GUI.draw(self)
+
 					lg.setFont(Fonts.betterPixels)
-					lg.print("HP  " .. player.health .. "/" .. player.maxHealth, 8,10)
-					lg.print("MP  " .. player.mana .. "/" .. player.maxMana, 8,25)
+					lg.print("HP  " .. player.hp .. "/" .. player:getStat("hp"), 8,10)
+					lg.print("MP  " .. player.mp .. "/" .. player:getStat("mp"), 8,25)
 
 					lg.print("ATK  12", 8,42)
 					lg.print("DEF  8", 8,56)
@@ -65,77 +79,155 @@ local screens = {
 		guis = { 
 					--topgui
 					GUI(0,0,250,80, {
+						focus = function (self)
+							self.selected = 1
+							selectedItem = nil
+							selectedSlot = nil
+						end,
+						blur = function (self)
+							
+						end,
+						receiveInput = function (self, input)
+							if input == "up" then
+								self.selected = math.max(self.selected - 1, 1)
+							elseif input == "down" then
+								self.selected = math.min(self.selected + 1, 5)
+							elseif input == "select" then
+								local slots = {"weapon", "armor", "acc1", "acc2", "spell"}
+								selectedSlot = slots[self.selected]
+								MenuState:push(screens.Equip.guis[2])
+							end
+						end,
 						draw = function(self)
 							GUI.draw(self)
+
+							local active = self.isActive
+
+							local function setColor(num)
+								love.graphics.setColor((active and self.selected == num) and Color.White or Color.Grey)
+							end
+
 							love.graphics.setFont(Fonts.tiny)
-							love.graphics.print("WEAPON",8,3)
-							love.graphics.print("ARMOR",8,18)
-							love.graphics.print("ACC 1",8,33)
-							love.graphics.print("ACC 2",8,47)
-							love.graphics.print("SPELL",8,60)
 
-							love.graphics.print("HP", 193 , 12)
-							love.graphics.print(player.maxHealth, 220,12)
-							love.graphics.print("MP", 193 , 22)
-							love.graphics.print(player.maxMana, 220,22)
-							love.graphics.print("ATK", 193 , 32)
-							love.graphics.print("12", 220,32)
-							love.graphics.print("DEF", 193 , 42)
-							love.graphics.print("12", 220,42)
+							setColor(1)
+							love.graphics.print("WEAPON",18,3)
+							setColor(2)
+							love.graphics.print("ARMOR",18,18)
+							setColor(3)
+							love.graphics.print("ACC 1",18,33)
+							setColor(4)
+							love.graphics.print("ACC 2",18,47)
+							setColor(5)
+							love.graphics.print("SPELL",18,60)
 
+							if active then
+								local ys = {3,18,33,47,60}
+								love.graphics.setColor(Color.White)
+								self:drawSelector(16, ys[self.selected] + Fonts.tiny:getHeight() / 2 + 1)
+							end
+
+							local function drawStat(stat, x, y)
+								local oldStat, newStat = player:getStat(stat, selectedItem, selectedSlot)
+
+								local s = oldStat
+								if oldStat < newStat then
+									love.graphics.setColor(Color.LightBlue)
+									s = newStat
+								elseif oldStat > newStat then
+									love.graphics.setColor(Color.DarkRed)
+									s = newStat
+								else
+									love.graphics.setColor(Color.White)
+								end
+
+								love.graphics.print(s,x,y)
+
+							end
+
+							love.graphics.setColor(Color.White)
+							love.graphics.print("HP", 203 , 12)
+							love.graphics.print("MP", 203 , 22)
+							love.graphics.print("ATK", 203 , 32)
+							love.graphics.print("DEF", 203 , 42)
+
+							drawStat("hp", 230, 12)
+							drawStat("mp", 230, 22)
+							drawStat("atk", 230, 32)
+							drawStat("def", 230, 42)
+
+							love.graphics.setColor(Color.White)
 							love.graphics.setFont(Fonts.betterPixels)
 
 							local item = player.equipped.weapon
-							item:draw(38,4)
-							love.graphics.print(item.name, 58, 5)
+							item:draw(48,4)
+							love.graphics.print(item.name, 68, 5)
 
 							local item = player.equipped.armor
 							local t = "----"
 							if item then
-								item:draw(38, 19)
+								item:draw(48, 19)
 								t = item.name
 							end
-							love.graphics.print(t,58, 20)
+							love.graphics.print(t,68, 20)
 
 							local item = player.equipped.acc1
 							local t = "----"
 							if item then
-								item:draw(38, 33)
+								item:draw(48, 33)
 								t = item.name
 							end
-							love.graphics.print(t,58, 34)
+							love.graphics.print(t,68, 34)
 
 							local item = player.equipped.acc2
 							local t = "----"
 							if item then
-								item:draw(38, 48)
+								item:draw(48, 48)
 								t = item.name
 							end
-							love.graphics.print(t,58, 49)
+							love.graphics.print(t,68, 49)
+
+							local item = player.equipped.spell
+							local t = "----"
+							if item then
+								item:draw(48, 62)
+								t = item.name
+							end
+							love.graphics.print(t,68, 63)
 
 						end
 					}),
 					--middle
 					ItemGUI(0,80,250,60, {
 						onItemChange = function(self,item)
-							if item then
-								itemDescription = item.description or ""
-							else
-								itemDescription = ""
-							end
-						end
+							selectedItem = item
+						end,
+						onItemSelect = function (self,item)
+							player:equip(item,selectedSlot)
+							MenuState:back()
+						end,
+						focus = function (self)
+							self:setFilter(makeEquipFilter(selectedSlot))
+							ItemGUI.focus(self)
+						end,
+						blur = function (self)
+							self:setFilter(makeEquipFilter())
+							ItemGUI.blur(self)
+						end,
+						filter = makeEquipFilter()
 					}),
 					--bottom
 					GUI(0,140,250,40, {
 						draw = function (self)
 							GUI.draw(self)
-							love.graphics.printf(itemDescription, self.x + 8, self.y + 5, self.width - 16, "left")
+							if selectedItem then
+								love.graphics.printf(selectedItem.description or "", self.x + 8, self.y + 5, self.width - 16, "left")
+							end
 						end
 					}),
 
 				},
 		onSelect = function (self)
-			MenuState:push(self.guis[2])
+			MenuState:push(self.guis[1])
 		end
 	},
 	{

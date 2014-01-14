@@ -1,5 +1,11 @@
 
-Enemy = Class("Enemy", MapObject)
+require("hurtableobject")
+
+Enemy = Class("Enemy", HurtableObject)
+
+function Enemy:initialize(x,y,props,hp)
+	HurtableObject.initialize(self,x,y,props,hp)
+end
 
 function Enemy:wake()
 	

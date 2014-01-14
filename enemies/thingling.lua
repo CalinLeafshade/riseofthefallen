@@ -40,13 +40,14 @@ local states =
 			self.animation = self.animations.hurt
 			self.onGround = false
 			dx = saturate(dx)
-			self.vx = dx * 200
-			self.vy = -200
+			self.vx = 0--dx * 200
+			self.hurtTimer = 0.2
+			--self.vy = -200
 		end,
 		update = function(self,dt)
-			if self.onGround then
+			self.hurtTimer = self.hurtTimer - dt
+			if self.hurtTimer < 0 then
 				self:setState("walk")
-				self.isHurt = false
 			end
 		end
 	}
@@ -60,7 +61,7 @@ end
 function Thingling:initialize(x,y,props)
 	props = props or {}
 	props.limit = props.limit or {0,320}
-	Enemy.initialize(self,x,y,props)
+	Enemy.initialize(self,x,y,props,20)
 	self.animations = 
 	{
 		walk = Animation("gfx/enemies/thinglingWalk.png", 3, {offset = "bottom middle"}),

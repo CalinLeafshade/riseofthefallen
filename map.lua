@@ -75,6 +75,24 @@ Map.objectProcessors =
 	
 }
 
+function Map:hurtAll(fromX, fromY, x,y,atk,except)
+	local o = self:getObjectsAt(x,y)
+	for i,v in ipairs(o) do
+		if v.hp then
+			for ii,vv in ipairs(except or {}) do
+				if vv == v then
+					table.remove(o,i)
+				end
+			end
+		else
+			table.remove(o,i)
+		end
+	end
+	for i,v in ipairs(o) do
+		v:hurt(atk, v.x - fromX, v.y - fromY)
+	end
+end
+
 function Map:getCellCoverage()
 	return self.width / 20, self.height / 10
 end

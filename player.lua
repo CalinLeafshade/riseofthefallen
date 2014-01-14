@@ -1,7 +1,8 @@
 
 require('mapobject')
+require('hurtableobject')
 
-Player = Class("Player",MapObject)
+Player = Class("Player",HurtableObject)
 
 local animations = 
 {
@@ -14,8 +15,13 @@ local animations =
 	{
 		fists = 
 		{
-			ground = Animation("gfx/player/playerAttackFist.png",5, {speed = 0.07}),
-			air = Animation("gfx/player/playerAttackFist.png",5, {speed = 0.07}),
+			ground = Animation("gfx/player/playerAttackFist.png",5, {speed = 0.07, loop = false}),
+			air = Animation("gfx/player/playerAttackFist.png",5, {speed = 0.07, loop = false}),
+		},
+		swing = 
+		{
+			ground = Animation("gfx/player/playerAttackSwing.png",8, {speed = 0.07, loop = false}),
+			air = Animation("gfx/player/playerAttackSwing.png",8, {speed = 0.07, loop = false}),
 		}
 	}
 
@@ -85,11 +91,30 @@ local states =
 		end,
 		leave = function() end
 	},
+	wait = 
+	{
+		set = function (self,delay,next)
+			self.waitDelay = delay
+			self.nextState = next
+			if delay == 0 then
+				self:setState(next)
+			end
+		end,
+		update = function (self,dt)
+			self.waitDelay = self.waitDelay - dt
+			if self.waitDelay <= 0 then
+				self:setState(self.nextState)
+			end
+		end
+	},
 	attack = 
 	{
 		set = function(self, weapon)
+			self.hurtByThisAttack = {}
+			self.hang = nil
 			if self.onGround then
 				self.animation = self.animations.attack[weapon.animation].ground
+				self.animation.speed = weapon.speed
 				self.attachment = weapon.attachment and WeaponAttachments[weapon.attachment].ground
 				self.animation:reset()
 				self.vx = 0
@@ -101,18 +126,53 @@ local states =
 			end
 		end,
 		update = function(self,dt)
-			if self.onGround then
-				self.vx = 0
-				self.ax = 0
-			end
-			local s = self.animation:update(dt)
-			if self.attachment then
-				self.attachment.frame = self.animation.frame
-			end
-			if s == "complete" then
-				self:setState("idle")
-			elseif s == "frame" then
-				
+			if self.hang then
+				self.hang = self.hang - dt
+				if self.hang < 0 then
+					self:setState("idle")
+				end
+			else
+				local w = self:getWeapon()
+				if self.onGround then
+					self.vx = 0
+					self.ax = 0
+				end
+				local s = self.animation:update(dt)
+				if self.attachment then
+					self.attachment.frame = self.animation.frame
+				end
+				if s == "complete" then
+					if w.hang then
+						self.hang = w.hang
+					else
+						self:setState("idle")
+					end
+				else
+					
+					local f = self.animation.frame
+					print(f)
+					local cx,cy = self:getCenter()
+					local py = self:bottom()
+					local a = WeaponAttachments[w.attachment]
+					local ani = WeaponAttachments[w.attachment][self.onGround and "ground" or "air"]
+					for i,v in ipairs(a.hitPoints[f] or {}) do -- TODO special case for fists
+						local dx = (v[1] - ani:getWidth() / 2)
+						local dy = (ani:getHeight() - v[2])
+						if self.dir == "left" then
+							dx = -dx
+						end
+						local x = cx + dx
+						local y = py - dy
+						local o = self.map:getObjectsAt(x,y)
+						for i,v in ipairs(o) do
+							local vx,vy = v:getCenter()
+							if v~= self and v.hurt and not self.hurtByThisAttack[v] then
+								self.hurtByThisAttack[v] = true
+								v:hurt(self:getStat("atk"),vx - cx, vy - cy, w.dmgType or "normal")
+							end
+						end
+					end
+				end
 			end
 		end,
 		leave = function(self)
@@ -143,21 +203,27 @@ local states =
 	}
 }
 
+
+
 function Player:initialize(x,y,props)
-	MapObject.initialize(self,x,y,props)
-	self.maxHealth = 50
-	self.health = 50
-	self.mana = 50
-	self.maxMana = 100
+	HurtableObject.initialize(self,x,y,props)
+	self.hurtTime = 2
+	self.baseStats = 
+	{
+		hp = 100,
+		mp = 100,
+		atk = 1,
+		def = 1,
+		int = 1,
+	}
+	self.hp = self.baseStats.hp
+	self.mp = self.baseStats.mp
 	self.animations = animations
 	self.states = states
 	self.friction = true
 	self.equipped = { 
 		weapon = Items["Short Sword"],
 		armor = Items["Leather Vest"],
-		acc1 = Items["Potion"],
-		acc2 = Items["High Potion"]
-
 	}
 	self:setState("idle")
 	self.items = {}
@@ -166,6 +232,21 @@ function Player:initialize(x,y,props)
 			self:pickUp(v)
 		end
 	end
+end
+
+function Player:getStat(stat, withItem, inSlot)
+	inSlot = inSlot or ""
+	local base = (self.baseStats[stat] or 0)
+	local new = (self.baseStats[stat] or 0)
+	for i,v in pairs(self.equipped) do
+		if inSlot == i and withItem then
+			new = new + (withItem.stats[stat] or 0)
+		else
+			new = new + (v.stats[stat] or 0)
+		end
+		base = base + (v.stats[stat] or 0)
+	end
+	return base, new
 end
 
 function Player:handleWet( dt,x,y )
@@ -202,17 +283,22 @@ function Player:equip(item, slot)
 	end
 	local i = self.equipped[slot]
 	if i.name ~= "Fists" then
-		self:pickUp(i)
+		self:pickUp(i, true)
 	end
 	self.equipped[slot] = item
+	if self.items[item] and self.items[item] > 1 then
+		self.items[item] = self.items[item] - 1
+	else
+		self.items[item] = nil
+	end
 end
 
 function Player:restoreHealth(val)
-	self.health = math.min(self.health + val, self.maxHealth)
+	self.hp = math.min(self.hp + val, self:getStat("hp"))
 end
 
 function Player:restoreMana(val)
-	self.mana = math.min(self.mana + val, self.maxMana)
+	self.mp = math.min(self.mp + val, self:getStat("mp"))
 end
 
 function Player:jump()
@@ -230,13 +316,13 @@ function Player:interact()
 	end
 end
 
-function Player:hurt(pwr,vx,vy)
+function Player:hurt(pwr,vx,vy, knockBack)
 	if self.state == "hurt" or self:isInvincible() then
 		return false
 	end
+	pwr = math.max(pwr - self:getStat("def"), 1)
 	self.lastHurt = love.timer.getTime()
-	self.health = self.health - pwr
-	print("player was hurt")
+	self.hp = self.hp - pwr
 	local x = self:getCenter()
 	local y = self.y
 	Bubble(x,y - 15,pwr,{200,0,0})
@@ -254,21 +340,6 @@ function Player:attack()
 	if not self:getState().canAttack then return end
 	local w = self:getWeapon()
 	self:setState("attack",w)
-	local tx,ty = self:getCenter()
-	local range = self.dir == "left" and -w.range or w.range
-	local o = {}
-	for x = tx,tx + range, range < 0 and -1 or 1 do
-		local oo = self.map:getObjectsAt(x,ty)
-		for i,v in ipairs(oo) do
-			o[v] = v
-		end
-	end
-	o[self] = nil -- dont attack player
-	for i,v in pairs(o) do
-		if v.solid and not v.static then
-			v:hurt(w.power, v.x - self.x, v.y - self.y)
-		end
-	end
 end
 
 function Player:leaveEdge(edge)

@@ -18,8 +18,8 @@ end
 function HealthGUI:update(dt)
 	self.hp = self.hp or 0
 	self.mana = self.mana or 0
-	self.hp = lerp(self.hp, player.health, dt * 2)
-	self.mana = lerp(self.mana, player.mana, dt * 2)
+	self.hp = lerp(self.hp, player.hp, dt * 2)
+	self.mana = lerp(self.mana, player.mp, dt * 2)
 end
 
 function HealthGUI:draw()
@@ -32,8 +32,8 @@ function HealthGUI:draw()
 	end
 	
 	love.graphics.draw(self.picker,0,156)
-	drawBar("hp",29,164,self.hp, player.maxHealth, 60)
-	drawBar("mana",29,170,self.mana, player.maxMana, 60)
+	drawBar("hp",29,164,self.hp, player:getStat("hp"), 60)
+	drawBar("mana",29,170,self.mana, player:getStat("mp"), 60)
 	
 end
 

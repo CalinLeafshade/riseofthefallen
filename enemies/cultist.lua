@@ -60,7 +60,7 @@ end
 function Cultist:initialize(x,y,props)
 	props = props or {}
 	props.limit = props.limit or {0,320}
-	Enemy.initialize(self,x,y,props)
+	Enemy.initialize(self,x,y,props,20)
 	self.animations = 
 	{
 		walk = Animation("gfx/enemies/cultistWalk.png", 4, {offset = "bottom middle"}),
