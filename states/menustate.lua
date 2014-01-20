@@ -34,12 +34,14 @@ screens = {
 				draw = function(self)
 					GUI.draw(self)
 
+					lg.draw(Portraits.player, 245,5,0,-1,1)
+
 					lg.setFont(Fonts.betterPixels)
 					lg.print("HP  " .. player.hp .. "/" .. player:getStat("hp"), 8,10)
 					lg.print("MP  " .. player.mp .. "/" .. player:getStat("mp"), 8,25)
 
-					lg.print("ATK  12", 8,42)
-					lg.print("DEF  8", 8,56)
+					lg.print("ATK  " .. player:getStat("atk"), 8,42)
+					lg.print("DEF  " .. player:getStat("def"), 8,56)
 
 					lg.print("STATUS  Normal", 8, 74)
 
@@ -277,7 +279,7 @@ function MenuState:back()
 		self.stack[1]:focus()
 	else
 		stateManager:pop()
-	end
+	end	
 end
 
 function MenuState:push(g)

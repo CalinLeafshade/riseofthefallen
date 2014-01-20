@@ -1,8 +1,22 @@
 
-require('datadumper')
+require('lib.datadumper')
 require('player')
 
 SaveState = Class("SaveState")
+
+
+
+function SaveState.static.enumerate()
+	local slots = {}
+	local files = love.filesystem.getDirectoryItems("")
+	for i,v in ipairs(files) do
+		if v:match("save%d%.lua") then
+			local slot = v:match("%d")
+			table.insert(slots, tonumber(slot))
+		end
+	end
+	return slots
+end
 
 function SaveState.static.loadFromSlot(slot)
 	local data = love.filesystem.load("save" .. slot .. ".lua")()

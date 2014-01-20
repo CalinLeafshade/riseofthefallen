@@ -8,7 +8,9 @@ HealthGUI =
 		empty = love.graphics.newImage("gfx/gui/gui_emptyBar.png"),
 		hp = love.graphics.newImage("gfx/gui/gui_hpBar.png"),
 		mana = love.graphics.newImage("gfx/gui/gui_manaBar.png"),
-	}
+	},
+	hp = 0,
+	mana = 0
 }
 
 for i,v in ipairs(HealthGUI.bars) do
@@ -16,8 +18,6 @@ for i,v in ipairs(HealthGUI.bars) do
 end
 
 function HealthGUI:update(dt)
-	self.hp = self.hp or 0
-	self.mana = self.mana or 0
 	self.hp = lerp(self.hp, player.hp, dt * 2)
 	self.mana = lerp(self.mana, player.mp, dt * 2)
 end

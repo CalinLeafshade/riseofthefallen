@@ -7,7 +7,7 @@ WeaponAttachments =
 		ground = Animation("gfx/weapons/sword.png",5,{speed = 0.07}),
 		air = Animation("gfx/weapons/sword.png",5,{speed = 0.07}),
 		hitPoints = {
-			{ { 37, 13  }, {59, 13} }, -- frame 1
+			{ {30,13}, { 37, 13  }, {59, 13} }, -- frame 1
 			--{ { 54, 13  } },
 		},
 	},

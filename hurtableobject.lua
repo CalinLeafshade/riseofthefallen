@@ -12,6 +12,10 @@ function MapObject:isInvincible()
 	return love.timer.getTime() - self.lastHurt < self.hurtTime 
 end
 
+function HurtableObject:update( ... )
+	MapObject.update(self,...)
+	self.alpha = self:isInvincible() and 128 or 255
+end
 function HurtableObject:hurt(pwr,dx,dy,dmgType)
 	if self.state == "hurt" then return end
 	self.lastHurt = love.timer.getTime()

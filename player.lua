@@ -148,9 +148,7 @@ local states =
 						self:setState("idle")
 					end
 				else
-					
 					local f = self.animation.frame
-					print(f)
 					local cx,cy = self:getCenter()
 					local py = self:bottom()
 					local a = WeaponAttachments[w.attachment]
@@ -344,7 +342,6 @@ end
 
 function Player:leaveEdge(edge)
 	local cx,cy = self:getCell()
-	print(edge,cx,cy)
 	world:changeMap(cx,cy)
 end
 
