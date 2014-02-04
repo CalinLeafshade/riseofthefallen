@@ -6,7 +6,7 @@ Player = Class("Player",HurtableObject)
 
 local animations = 
 {
-	walk = Animation("gfx/player/playerWalk.png",4, {offset = "bottom middle"}),
+	walk = Animation("gfx/player/playerWalk.png",6, {offset = "bottom middle"}),
 	idle = Animation("gfx/player/playerIdle.png",1),
 	hurt = Animation("gfx/player/playerHurt.png",1),
 	jump = Animation("gfx/player/playerJump.png",1),
@@ -52,7 +52,7 @@ local states =
 			self.animation:reset()
 		end,
 		update = function(self,dt)
-			self.animation:update(dt * clamp((math.abs(self.vx * 4) / self.maxLateralSpeed),0,1))
+			self.animation:update(dt * clamp((math.abs(self.vx * 6) / self.maxLateralSpeed),0,1))
 			if math.abs(self.vx) < 10 and self.onGround then
 				self.vx = 0
 				self:setState("idle")
@@ -302,7 +302,7 @@ end
 function Player:jump()
 	if not self.onGround then return end
 	self:setState("jump")
-	self.vy = -400
+	self.vy = -320
 	self.onGround = false
 	
 end
