@@ -22,8 +22,10 @@ function ItemGUI:rows( ... )
 	return (self.height - 10) / 15
 end
 
-function ItemGUI:setFilter(filter)
+function ItemGUI:setFilter(filter, action)
+	action = action or "remove"
 	assert(type(filter) == "function", "filter should be a function")
+	self.action = action
 	self.filter = filter
 	self.selected = 1
 end
@@ -73,8 +75,12 @@ function ItemGUI:update( dt )
 	GUI.update(self, dt)
 	self.items = {}
 	for i,v in ipairs(Items) do
-		if player.items[v] and (self.filter or defaultFilter)(v) then
-			table.insert(self.items, { count = player.items[v], item = v})
+		if player.items[v] then
+			if (self.filter or defaultFilter)(v) then
+				table.insert(self.items, { count = player.items[v], item = v})
+			elseif self.action == "grey" then
+				table.insert(self.items, { count = player.items[v], item = v, greyed = true})
+			end
 		end
 	end
 	table.sort(self.items, function (a,b)
@@ -86,11 +92,10 @@ function ItemGUI:draw()
 	GUI.draw(self)
 	if self.items and #self.items > 0 then
 		local x, y = self.x + 10, self.y + 4
-		local filter = self.filter or defaultFilter
 		for i=self.scroll * 2 + 1, (self.scroll * 2) + math.min(#self.items, ((self.height - 10) / 15) * 2) do
 			local v = self.items[i]
 			local c = self.selected == i and Color.White or Color.Grey
-			c = filter(v.item) and c or Color.DarkGrey
+			c = v.greyed and Color.DarkGrey or c
 			love.graphics.setColor(c)
 			if self.selected == i and self.isActive then 
 				self:drawSelector(x + 8, y + Fonts.betterPixels:getHeight() / 2)
