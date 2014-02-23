@@ -65,13 +65,16 @@ function MainMenu:update( dt )
 end
 
 function MainMenu:draw( ... )
-	lg.setColor(Color.Black)
-	lg.rectangle("fill",0,0,320,180)
+	-- Alan - attempting at background
+	--lg.setColor(Color.Black)
+	--lg.rectangle("fill",0,0,320,180)
+	bg = love.graphics.newImage("gfx/title.png")
+	lg.draw(bg)
 	lg.setFont(Fonts.betterPixels)
 	for i,v in ipairs(stack[1]) do
 		local c = selectedItem == i and Color.White or Color.Grey
 		lg.setColor(c)
 		local y = 160 - #stack[1] * 12 + i * 12
-		lg.print(v.text, 10, y)
+		lg.print(v.text, 130, y)
 	end
 end
